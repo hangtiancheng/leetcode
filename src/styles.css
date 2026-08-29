@@ -95,124 +95,64 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-html,
-body,
-#app {
-  min-height: 100%;
-}
+@theme {
+  --animate-rise-in: rise-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-stamp-in: stamp-in 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-dirty-pulse: dirty-pulse 1.6s ease-in-out infinite;
 
-body {
-  margin: 0;
-  background-color: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-::selection {
-  background: rgba(16, 107, 87, 0.18);
-}
-
-/* ---- Dialog animation (base-ui data attributes) ---- */
-
-.ui-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(24, 26, 31, 0.44);
-  backdrop-filter: blur(2px);
-  opacity: 1;
-  transition: opacity 180ms ease;
-}
-
-.ui-backdrop[data-starting-style],
-.ui-backdrop[data-ending-style] {
-  opacity: 0;
-}
-
-.ui-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 1;
-  transition:
-    opacity 170ms ease,
-    transform 170ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.ui-popup[data-starting-style],
-.ui-popup[data-ending-style] {
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0.965) translateY(6px);
-}
-
-/* ---- Micro animations ---- */
-
-.rise-in {
-  animation: rise-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes rise-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  @keyframes stamp-in {
+    0% {
+      opacity: 0;
+      transform: scale(1.18);
+    }
+    60% {
+      transform: scale(0.97);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes dirty-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
   }
 }
 
-.stamp-in {
-  animation: stamp-in 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes stamp-in {
-  0% {
-    opacity: 0;
-    transform: scale(1.18);
-  }
-  60% {
-    transform: scale(0.97);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.dirty-dot {
-  animation: dirty-pulse 1.6s ease-in-out infinite;
-}
-
-@keyframes dirty-pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.35;
-  }
-}
-
-/* Unobtrusive scrollbar (problem statement side) */
-.scroll-quiet {
+/* Scrollbar pseudo-elements have no atomic equivalent. */
+@utility scroll-quiet {
   scrollbar-width: thin;
   scrollbar-color: var(--line-strong) transparent;
-}
 
-.scroll-quiet::-webkit-scrollbar {
-  width: 8px;
-}
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
 
-.scroll-quiet::-webkit-scrollbar-thumb {
-  background: var(--line-strong);
-  border-radius: 8px;
-}
+  &::-webkit-scrollbar-thumb {
+    background: var(--line-strong);
+    border-radius: 8px;
+  }
 
-.scroll-quiet::-webkit-scrollbar-track {
-  background: transparent;
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

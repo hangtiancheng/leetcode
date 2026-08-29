@@ -84,7 +84,7 @@ function Dashboard() {
 
 	return (
 		<main className="mx-auto w-[min(1000px,calc(100%-2.5rem))] pt-14 pb-20">
-			<header className="rise-in">
+			<header className="animate-rise-in">
 				<div className="flex items-center justify-between gap-4">
 					<p className="font-mono text-[11px] font-medium text-pine">
 						Dashboard
@@ -108,7 +108,10 @@ function Dashboard() {
 				</div>
 			</header>
 
-			<section className="rise-in mt-8" style={{ animationDelay: "90ms" }}>
+			<section
+				className="animate-rise-in mt-8"
+				style={{ animationDelay: "90ms" }}
+			>
 				{problems.length === 0 ? (
 					<div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-line-strong bg-paper-raised px-8 py-16 text-center">
 						<p className="text-sm text-ink-soft">

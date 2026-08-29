@@ -25,7 +25,7 @@ function ProblemIndex() {
 
 	return (
 		<main className="mx-auto w-[min(880px,calc(100%-2.5rem))] pt-16 pb-20">
-			<header className="rise-in">
+			<header className="animate-rise-in">
 				<div className="flex items-center justify-between gap-4">
 					<p className="font-mono text-[11px] font-medium text-pine">
 						LeetCode Problems
@@ -49,7 +49,7 @@ function ProblemIndex() {
 
 			<section className="mt-10">
 				{problems.length === 0 ? (
-					<div className="rise-in flex flex-col items-center gap-4 rounded-2xl border border-dashed border-line-strong bg-paper-raised px-8 py-16 text-center">
+					<div className="animate-rise-in flex flex-col items-center gap-4 rounded-2xl border border-dashed border-line-strong bg-paper-raised px-8 py-16 text-center">
 						<BookOpenText className="size-8 text-ink-faint" />
 						<p className="text-sm text-ink-soft">
 							The library is empty. Head to the dashboard to add the first
@@ -64,7 +64,7 @@ function ProblemIndex() {
 						{problems.map((p, i) => (
 							<li
 								key={p.id}
-								className="rise-in border-b border-line last:border-b-0"
+								className="animate-rise-in border-b border-line last:border-b-0"
 								style={{ animationDelay: `${90 + i * 55}ms` }}
 							>
 								<Link

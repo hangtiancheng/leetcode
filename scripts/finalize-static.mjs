@@ -7,12 +7,12 @@ const dir = resolve(".output/public");
 const shell = resolve(dir, "index.html");
 
 if (!existsSync(shell)) {
-  console.error(`Missing SPA shell: ${shell}`);
-  process.exit(1);
+	console.error(`Missing SPA shell: ${shell}`);
+	process.exit(1);
 }
 if (!existsSync(resolve(dir, "snapshot.json"))) {
-  console.error(`Missing snapshot.json in ${dir}. Run "pnpm db:export" first.`);
-  process.exit(1);
+	console.error(`Missing snapshot.json in ${dir}. Run "pnpm db:export" first.`);
+	process.exit(1);
 }
 
 // GitHub Pages cannot rewrite unknown paths to the shell, so it serves 404.html

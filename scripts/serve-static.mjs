@@ -1,46 +1,54 @@
+// @ts-check
+
+// Serves the build:static output the way GitHub Pages does: under a base path,
+// with unknown paths falling back to 404.html. `vite preview` does neither.
+
 import { createReadStream, existsSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { extname, join, normalize, resolve } from "node:path";
 
 const dir = resolve(".output/public");
-const base = "/leetcode";
-const port = 4321;
+const base = (process.env.STATIC_BASE ?? "/leetcode/").replace(/\/$/, "");
+const port = Number(process.env.PORT ?? 4321);
 
-const TYPES = {
+/** @type {Record<string, string>} */
+const CONTENT_TYPES = {
+	".css": "text/css",
 	".html": "text/html; charset=utf-8",
 	".js": "text/javascript",
-	".css": "text/css",
 	".json": "application/json",
-	".svg": "image/svg+xml",
-	".woff2": "font/woff2",
 	".map": "application/json",
+	".svg": "image/svg+xml",
+	".ttf": "font/ttf",
+	".woff2": "font/woff2",
 };
 
 createServer((req, res) => {
-	const { pathname } = new URL(req.url, "http://localhost");
+	const { pathname } = new URL(req.url ?? "/", "http://localhost");
 
-	if (pathname === base) {
+	if (base && pathname === base) {
 		res.writeHead(301, { location: `${base}/` }).end();
 		return;
 	}
 	if (!pathname.startsWith(`${base}/`)) {
-		res.writeHead(404).end("outside base");
+		res.writeHead(404).end("outside base path");
 		return;
 	}
 
-	const rel = normalize(pathname.slice(base.length)).replace(/^(\.\.[/\\])+/, "");
-	let file = join(dir, rel);
+	let file = join(dir, normalize(pathname.slice(base.length)));
 	if (!file.startsWith(dir)) {
 		res.writeHead(403).end("forbidden");
 		return;
 	}
-	if (existsSync(file) && statSync(file).isDirectory()) file = join(file, "index.html");
+	if (existsSync(file) && statSync(file).isDirectory()) {
+		file = join(file, "index.html");
+	}
 
 	const status = existsSync(file) ? 200 : 404;
 	if (status === 404) file = join(dir, "404.html");
 
 	res.writeHead(status, {
-		"content-type": TYPES[extname(file)] ?? "application/octet-stream",
+		"content-type": CONTENT_TYPES[extname(file)] ?? "application/octet-stream",
 	});
 	createReadStream(file).pipe(res);
 }).listen(port, () => {

@@ -14,10 +14,13 @@ function DialogContent({
 }: React.ComponentProps<typeof BaseDialog.Popup>) {
 	return (
 		<BaseDialog.Portal>
-			<BaseDialog.Backdrop className="ui-backdrop z-50" />
+			<BaseDialog.Backdrop className="fixed inset-0 z-50 bg-[#181a1f]/44 backdrop-blur-[2px] transition-opacity duration-180 ease-[ease] data-[ending-style]:opacity-0 data-[starting-style]:opacity-0" />
 			<BaseDialog.Popup
 				className={cn(
-					"ui-popup z-50 w-[min(600px,calc(100vw-2rem))] rounded-2xl border border-line bg-paper-raised p-6 shadow-[0_28px_70px_rgba(24,26,31,0.22)] outline-none",
+					"fixed top-1/2 left-1/2 z-50 w-[min(600px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-line bg-paper-raised p-6 shadow-[0_28px_70px_rgba(24,26,31,0.22)] outline-none",
+					"transition-[opacity,transform] duration-170 ease-[cubic-bezier(0.16,1,0.3,1)]",
+					"data-[ending-style]:translate-y-[calc(-50%+6px)] data-[ending-style]:scale-[0.965] data-[ending-style]:opacity-0",
+					"data-[starting-style]:translate-y-[calc(-50%+6px)] data-[starting-style]:scale-[0.965] data-[starting-style]:opacity-0",
 					className,
 				)}
 				{...props}

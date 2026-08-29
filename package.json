@@ -11,6 +11,7 @@
     "build": "vite build && cp instrument.server.mjs .output/server",
     "build:static": "STATIC_BUILD=1 vite build && node scripts/finalize-static.mjs",
     "preview": "vite preview",
+    "preview:static": "node scripts/serve-static.mjs",
     "format": "biome format",
     "lint": "biome lint",
     "check": "biome check",
@@ -19,7 +20,9 @@
     "db:generate": "dotenv -e .env.local -- prisma generate",
     "db:push": "dotenv -e .env.local -- prisma db push",
     "db:migrate": "dotenv -e .env.local -- prisma migrate dev",
-    "db:studio": "dotenv -e .env.local -- prisma studio"
+    "db:studio": "dotenv -e .env.local -- prisma studio",
+    "git:commit": "git add -A && git commit -m \"feat: Introduce new features\"",
+    "git:push": "pnpm git:commit && git push origin main"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

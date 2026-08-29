@@ -36,11 +36,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en" suppressHydrationWarning>
+		<html lang="en" className="min-h-full" suppressHydrationWarning>
 			<head>
 				<HeadContent />
 			</head>
-			<body className="font-sans antialiased">
+			<body className="min-h-full bg-paper font-sans text-ink antialiased selection:bg-pine/18">
 				{children}
 				<Scripts />
 			</body>

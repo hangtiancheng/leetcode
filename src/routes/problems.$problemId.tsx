@@ -241,7 +241,7 @@ function ProblemPage() {
 					<span
 						className={cn(
 							"size-2 rounded-full",
-							isDirty ? "dirty-dot bg-amber" : "bg-pine",
+							isDirty ? "animate-dirty-pulse bg-amber" : "bg-pine",
 						)}
 					/>
 					<span className="font-mono text-xs text-ink-soft">
@@ -310,7 +310,7 @@ function ProblemPage() {
 								title={isDirty ? "Unsaved edits" : "In sync with database"}
 								className={cn(
 									"size-2 rounded-full",
-									isDirty ? "dirty-dot bg-amber" : "bg-pine",
+									isDirty ? "animate-dirty-pulse bg-amber" : "bg-pine",
 								)}
 							/>
 							<span className="rounded-md border border-line-strong bg-paper-raised px-1.5 py-0.5 font-mono text-[11px] font-semibold text-ink">
@@ -346,7 +346,7 @@ function ProblemPage() {
 						{stamp && (
 							<div
 								key={stamp.at}
-								className="stamp-in pointer-events-none absolute top-3 right-4 z-10 rounded-full border border-pine/40 bg-paper-raised/95 px-3 py-1 font-mono text-[11px] text-pine-deep shadow-[0_2px_10px_rgba(33,36,43,0.08)]"
+								className="animate-stamp-in pointer-events-none absolute top-3 right-4 z-10 rounded-full border border-pine/40 bg-paper-raised/95 px-3 py-1 font-mono text-[11px] text-pine-deep shadow-[0_2px_10px_rgba(33,36,43,0.08)]"
 							>
 								{stamp.text}
 							</div>
