@@ -186,7 +186,7 @@ function ProblemPage() {
 					to="/dashboard"
 					className="shrink-0 font-mono text-[11px] text-ink-faint transition-colors hover:text-pine-deep"
 				>
-					Manage library
+					Dashboard
 				</Link>
 			</header>
 
@@ -369,8 +369,6 @@ function ProblemPage() {
 						<span className="font-mono font-semibold text-ink">
 							v{version + 1}
 						</span>
-						. The current v{version} is kept in history and can be restored at
-						any time.
 					</AlertDialogDescription>
 					{actionError && (
 						<p className="mt-3 text-sm text-rose">{actionError}</p>

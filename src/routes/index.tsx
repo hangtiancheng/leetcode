@@ -26,24 +26,17 @@ function ProblemIndex() {
 	return (
 		<main className="mx-auto w-[min(880px,calc(100%-2.5rem))] pt-16 pb-20">
 			<header className="animate-rise-in">
-				<div className="flex items-center justify-between gap-4">
-					<p className="font-mono text-[11px] font-medium text-pine">
-						LeetCode Problems
-					</p>
+				<div className="flex justify-end items-center gap-4">
 					<Link to="/dashboard">
 						<Button variant="outline" size="sm">
-							Manage library
+							Dashboard
 							<ArrowUpRight />
 						</Button>
 					</Link>
 				</div>
-				<h1 className="font-display mt-5 text-[clamp(2.6rem,6vw,3.6rem)] leading-none font-bold tracking-tight text-ink">
-					Playground
-				</h1>
 				<p className="mt-6 font-mono text-ink-faint text-xs">
 					{problems.length} problems ·{" "}
-					{LANGUAGES.map((l) => l.short).join(" / ")}
-					{latest ? ` · Last updated ${formatDate(latest)}` : ""}
+					{latest ? `Last updated ${formatDate(latest)}` : ""}
 				</p>
 			</header>
 

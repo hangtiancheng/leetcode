@@ -85,22 +85,16 @@ function Dashboard() {
 	return (
 		<main className="mx-auto w-[min(1000px,calc(100%-2.5rem))] pt-14 pb-20">
 			<header className="animate-rise-in">
-				<div className="flex items-center justify-between gap-4">
-					<p className="font-mono text-[11px] font-medium text-pine">
-						Dashboard
-					</p>
+				<div className="flex items-center justify-start gap-4">
 					<Link
 						to="/"
 						className="flex items-center gap-1.5 font-mono text-[11px] text-ink-faint transition-colors hover:text-pine-deep"
 					>
 						<ArrowLeft className="size-3.5" />
-						Back to library
+						Back to playground
 					</Link>
 				</div>
 				<div className="mt-5 flex flex-wrap items-end justify-between gap-4">
-					<h1 className="font-display font-bold text-4xl text-ink tracking-tight">
-						Problem library
-					</h1>
 					<Button onClick={() => setForm({ mode: "create" })}>
 						<Plus />
 						New problem
@@ -244,10 +238,6 @@ function Dashboard() {
 			>
 				<AlertDialogContent>
 					<AlertDialogTitle>Delete “{pendingDelete?.title}”?</AlertDialogTitle>
-					<AlertDialogDescription>
-						The statement, examples, all three solutions and every stored
-						revision of this problem will be permanently deleted.
-					</AlertDialogDescription>
 					{deleteError && (
 						<p className="mt-3 text-sm text-rose">{deleteError}</p>
 					)}
