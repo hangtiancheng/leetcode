@@ -1,5 +1,5 @@
 /**
- * The single seam between the UI and its data source. `build:fe` aliases this
+ * The single seam between the UI and its data source. `build:static` aliases this
  * module to `problems.static.ts`, which keeps Prisma out of the static bundle.
  */
 export {
