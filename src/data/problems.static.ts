@@ -373,8 +373,7 @@ export async function rollbackSolution({
 			.equals(solution.id)
 			.sortBy("version");
 		const previous = revisions.at(-1);
-		if (!previous)
-			throw new Error("No previous revision available to restore");
+		if (!previous) throw new Error("No previous revision available to restore");
 
 		await db.revisions.delete(previous.id);
 		const updated: SolutionRow = {

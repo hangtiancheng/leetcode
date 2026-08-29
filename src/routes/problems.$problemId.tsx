@@ -17,11 +17,7 @@ import {
 	AlertDialogTitle,
 } from "#/components/ui/alert-dialog.tsx";
 import { Button } from "#/components/ui/button.tsx";
-import {
-	getProblem,
-	rollbackSolution,
-	saveSolution,
-} from "#/data/problems.ts";
+import { getProblem, rollbackSolution, saveSolution } from "#/data/problems.ts";
 import { LANGUAGES, type LanguageId } from "#/lib/languages.ts";
 import { cn } from "#/lib/utils.ts";
 
