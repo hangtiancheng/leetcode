@@ -2,8 +2,8 @@ import { Editor, loader } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import editorWorker from "monaco-editor/editor/editor.worker.js?worker";
 import tsWorker from "monaco-editor/language/typescript/ts.worker.js?worker";
-import * as React from "react";
 import type { LanguageId } from "#/lib/languages.ts";
+import { useTheme } from "#/lib/theme.ts";
 
 self.MonacoEnvironment = {
 	getWorker(_workerId, label) {
@@ -100,19 +100,6 @@ const FILE_EXT: Record<LanguageId, string> = {
 	go: "go",
 };
 
-function usePrefersDark() {
-	const [dark, setDark] = React.useState(
-		() => window.matchMedia("(prefers-color-scheme: dark)").matches,
-	);
-	React.useEffect(() => {
-		const mq = window.matchMedia("(prefers-color-scheme: dark)");
-		const onChange = () => setDark(mq.matches);
-		mq.addEventListener("change", onChange);
-		return () => mq.removeEventListener("change", onChange);
-	}, []);
-	return dark;
-}
-
 export type MonacoCodeEditorProps = {
 	problemId: number;
 	language: LanguageId;
@@ -126,11 +113,11 @@ export default function MonacoCodeEditor({
 	value,
 	onChange,
 }: MonacoCodeEditorProps) {
-	const dark = usePrefersDark();
+	const { resolved } = useTheme();
 
 	return (
 		<Editor
-			theme={dark ? "playground-mocha" : "playground-latte"}
+			theme={resolved === "dark" ? "playground-mocha" : "playground-latte"}
 			path={`problem-${problemId}.${FILE_EXT[language]}`}
 			language={MONACO_LANGUAGE[language]}
 			value={value}

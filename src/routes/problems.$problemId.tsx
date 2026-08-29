@@ -9,6 +9,7 @@ import * as React from "react";
 
 import { CodeEditor } from "#/components/code-editor.tsx";
 import { DifficultyBadge } from "#/components/difficulty-badge.tsx";
+import { ThemeToggle } from "#/components/theme-toggle.tsx";
 import {
 	AlertDialog,
 	AlertDialogContent,
@@ -208,12 +209,7 @@ function ProblemPage() {
 						className="hidden shrink-0 sm:inline-flex"
 					/>
 				</div>
-				<Link
-					to="/dashboard"
-					className="shrink-0 font-mono text-[11px] text-fg-faint transition-colors hover:text-fg"
-				>
-					Dashboard
-				</Link>
+				<ThemeToggle />
 			</header>
 
 			<div
@@ -306,7 +302,7 @@ function ProblemPage() {
 				<div
 					onPointerDown={startSplitDrag}
 					className={cn(
-						"group relative hidden w-[5px] cursor-col-resize lg:block",
+						"group relative hidden w-1.25 cursor-col-resize lg:block",
 						dragging ? "bg-ctp-mauve/20" : "hover:bg-ctp-mauve/10",
 					)}
 				>

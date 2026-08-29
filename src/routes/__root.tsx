@@ -49,6 +49,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 		<html lang="en" className="min-h-full" suppressHydrationWarning>
 			<head>
 				<HeadContent />
+				<script
+					// biome-ignore lint/security/noDangerouslySetInnerHtml: static theme bootstrap, no user input
+					dangerouslySetInnerHTML={{
+						__html: `try{var m=localStorage.getItem("playground-theme");if(m==="dark"||(m!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}catch(e){}`,
+					}}
+				/>
 			</head>
 			<body className="min-h-full bg-background font-sans text-foreground antialiased selection:bg-ctp-mauve/30">
 				{children}

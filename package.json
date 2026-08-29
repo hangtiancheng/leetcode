@@ -22,7 +22,8 @@
     "db:migrate": "dotenv -e .env.local -- prisma migrate dev",
     "db:studio": "dotenv -e .env.local -- prisma studio",
     "git:commit": "git add -A && git commit -m \"feat: Introduce new features\"",
-    "git:push": "pnpm git:commit && git push origin main"
+    "git:push": "pnpm git:commit && git push origin main",
+    "prepare": "husky"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
@@ -72,6 +73,8 @@
     "@types/react-dom": "^19.2.5",
     "@vitejs/plugin-react": "^6.1.1",
     "dotenv-cli": "^11.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.4.1",
     "nitro": "3.0.260610-beta",
     "typescript": "^6.0.3",
     "vite": "^8.2.2"

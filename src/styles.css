@@ -5,13 +5,15 @@
 
 /*
  Catppuccin: latte (light) is applied at :root, mocha (dark) under the
- `dark` variant (prefers-color-scheme). The variables below build the
- app's semantic tokens on top of the flavour palettes.
+ `dark` variant. The variant is class-based (.dark on <html>) so the
+ Light / Dark / System toggle can override the OS preference.
 */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @import "@catppuccin/tailwindcss/mocha.css";
 
 :root {
-	color-scheme: light dark;
+	color-scheme: light;
 
 	/* Elevation ladder: app < panel < raised */
 	--bg-app: var(--catppuccin-color-mantle);
@@ -54,19 +56,53 @@
 	--radius: 0.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		--bg-app: var(--catppuccin-color-crust);
-		--bg-panel: var(--catppuccin-color-mantle);
-		--bg-raised: var(--catppuccin-color-base);
-		--bg-well: rgba(205, 214, 244, 0.06);
+/*
+ `@variant dark { :root { … } }` would compile to the descendant selector
+ `:scope:where(.dark, .dark *) :root`, which never matches — so the dark
+ overrides (and the mocha palette re-declaration the catppuccin package
+ needs) live in a plain `:root.dark` rule instead.
+*/
+:root.dark {
+	color-scheme: dark;
 
-		--line: color-mix(in oklab, var(--catppuccin-color-surface0) 72%, transparent);
-		--line-strong: var(--catppuccin-color-surface0);
+	/* Mocha palette (the package's own dark block does not apply here) */
+	--catppuccin-color-rosewater: #f5e0dc;
+	--catppuccin-color-flamingo: #f2cdcd;
+	--catppuccin-color-pink: #f5c2e7;
+	--catppuccin-color-mauve: #cba6f7;
+	--catppuccin-color-red: #f38ba8;
+	--catppuccin-color-maroon: #eba0ac;
+	--catppuccin-color-peach: #fab387;
+	--catppuccin-color-yellow: #f9e2af;
+	--catppuccin-color-green: #a6e3a1;
+	--catppuccin-color-teal: #94e2d5;
+	--catppuccin-color-sky: #89dceb;
+	--catppuccin-color-sapphire: #74c7ec;
+	--catppuccin-color-blue: #89b4fa;
+	--catppuccin-color-lavender: #b4befe;
+	--catppuccin-color-text: #cdd6f4;
+	--catppuccin-color-subtext1: #bac2de;
+	--catppuccin-color-subtext0: #a6adc8;
+	--catppuccin-color-overlay2: #9399b2;
+	--catppuccin-color-overlay1: #7f849c;
+	--catppuccin-color-overlay0: #6c7086;
+	--catppuccin-color-surface2: #585b70;
+	--catppuccin-color-surface1: #45475a;
+	--catppuccin-color-surface0: #313244;
+	--catppuccin-color-base: #1e1e2e;
+	--catppuccin-color-mantle: #181825;
+	--catppuccin-color-crust: #11111b;
 
-		--primary-foreground: var(--catppuccin-color-crust);
-		--destructive-foreground: var(--catppuccin-color-crust);
-	}
+	--bg-app: var(--catppuccin-color-crust);
+	--bg-panel: var(--catppuccin-color-mantle);
+	--bg-raised: var(--catppuccin-color-base);
+	--bg-well: rgba(205, 214, 244, 0.06);
+
+	--line: color-mix(in oklab, var(--catppuccin-color-surface0) 72%, transparent);
+	--line-strong: var(--catppuccin-color-surface0);
+
+	--primary-foreground: var(--catppuccin-color-crust);
+	--destructive-foreground: var(--catppuccin-color-crust);
 }
 
 @theme inline {

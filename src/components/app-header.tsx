@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type * as React from "react";
 
+import { ThemeToggle } from "#/components/theme-toggle.tsx";
 import { cn } from "#/lib/utils.ts";
 
 export function AppHeader({
@@ -24,7 +25,10 @@ export function AppHeader({
 				<span className="size-2.5 rounded-[3px] bg-ctp-mauve" />
 				playground
 			</Link>
-			{right ? <div className="flex items-center gap-2">{right}</div> : null}
+			<div className="flex items-center gap-1.5">
+				<ThemeToggle />
+				{right}
+			</div>
 		</header>
 	);
 }
