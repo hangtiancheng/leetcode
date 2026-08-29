@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
-import { ArrowLeft, Pencil, Plus, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 import * as React from "react";
 
+import { AppHeader } from "#/components/app-header.tsx";
 import { DifficultyBadge } from "#/components/difficulty-badge.tsx";
 import {
 	ProblemFormDialog,
@@ -10,7 +11,6 @@ import {
 import {
 	AlertDialog,
 	AlertDialogContent,
-	AlertDialogDescription,
 	AlertDialogFooter,
 	AlertDialogTitle,
 } from "#/components/ui/alert-dialog.tsx";
@@ -83,131 +83,139 @@ function Dashboard() {
 	};
 
 	return (
-		<main className="mx-auto w-[min(1000px,calc(100%-2.5rem))] pt-14 pb-20">
-			<header className="animate-rise-in">
-				<div className="flex items-center justify-start gap-4">
-					<Link
-						to="/"
-						className="flex items-center gap-1.5 font-mono text-[11px] text-ink-faint transition-colors hover:text-pine-deep"
-					>
-						<ArrowLeft className="size-3.5" />
-						Back to playground
-					</Link>
-				</div>
-				<div className="mt-5 flex flex-wrap items-end justify-between gap-4">
-					<Button onClick={() => setForm({ mode: "create" })}>
+		<div className="min-h-dvh">
+			<AppHeader
+				right={
+					<Button size="sm" onClick={() => setForm({ mode: "create" })}>
 						<Plus />
 						New problem
 					</Button>
-				</div>
-			</header>
+				}
+			/>
 
-			<section
-				className="animate-rise-in mt-8"
-				style={{ animationDelay: "90ms" }}
-			>
-				{problems.length === 0 ? (
-					<div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-line-strong bg-paper-raised px-8 py-16 text-center">
-						<p className="text-sm text-ink-soft">
-							No problems yet. Select “New problem” to add the first one.
-						</p>
-						<Button size="sm" onClick={() => setForm({ mode: "create" })}>
-							<Plus />
-							New problem
-						</Button>
-					</div>
-				) : (
-					<div className="overflow-x-auto rounded-2xl border border-line bg-paper-raised shadow-[0_1px_0_rgba(255,255,255,0.9)_inset,0_10px_30px_rgba(33,36,43,0.05)]">
-						<table className="w-full min-w-190 border-collapse text-left">
-							<thead>
-								<tr className="border-b border-line font-mono text-[11px] tracking-[0.14em] text-ink-faint uppercase">
-									<th className="px-5 py-3.5 font-medium">#</th>
-									<th className="px-4 py-3.5 font-medium">Title</th>
-									<th className="px-4 py-3.5 font-medium">Difficulty</th>
-									<th className="px-4 py-3.5 font-medium">Examples</th>
-									<th className="px-4 py-3.5 font-medium">Versions</th>
-									<th className="px-4 py-3.5 font-medium">Updated</th>
-									<th className="px-5 py-3.5 text-right font-medium">
-										Actions
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{problems.map((p) => (
-									<tr
-										key={p.id}
-										className="border-b border-line transition-colors last:border-b-0 hover:bg-pine-wash/30"
-									>
-										<td className="px-5 py-4 font-mono text-xs text-ink-faint">
-											{String(p.id).padStart(3, "0")}
-										</td>
-										<td className="px-4 py-4">
-											<Link
-												to="/problems/$problemId"
-												params={{ problemId: String(p.id) }}
-												className="font-medium text-ink transition-colors hover:text-pine-deep"
-											>
-												{p.title}
-											</Link>
-										</td>
-										<td className="px-4 py-4">
-											<DifficultyBadge difficulty={p.difficulty} />
-										</td>
-										<td className="px-4 py-4 font-mono text-xs text-ink-soft">
-											{p.examples.length}
-										</td>
-										<td className="px-4 py-4">
-											<div className="flex gap-1.5 font-mono text-[11px] text-ink-faint">
-												{p.solutions.map((s) => {
-													const lang = LANGUAGES.find(
-														(l) => l.id === s.language,
-													);
-													return (
-														<span
-															key={s.language}
-															className="rounded-md border border-line px-1.5 py-0.5"
-														>
-															{lang?.short ?? s.language}
-															<span className="text-pine"> v{s.version}</span>
-														</span>
-													);
-												})}
-											</div>
-										</td>
-										<td className="px-4 py-4 font-mono text-xs text-ink-soft">
-											{formatDateTime(p.updatedAt)}
-										</td>
-										<td className="px-5 py-4">
-											<div className="flex justify-end gap-1">
-												<Button
-													variant="ghost"
-													size="icon-sm"
-													aria-label={`Edit "${p.title}"`}
-													onClick={() => setForm({ mode: "edit", problem: p })}
-												>
-													<Pencil />
-												</Button>
-												<Button
-													variant="ghost"
-													size="icon-sm"
-													aria-label={`Delete "${p.title}"`}
-													className="text-rose hover:bg-rose-wash hover:text-rose"
-													onClick={() => {
-														setDeleteError(null);
-														setPendingDelete(p);
-													}}
-												>
-													<Trash2 />
-												</Button>
-											</div>
-										</td>
+			<main className="mx-auto w-[min(1000px,calc(100%-2rem))] pt-8 pb-16">
+				<div className="animate-rise-in flex items-center gap-3 font-mono text-xs text-fg-soft">
+					<span className="rounded-sm bg-ctp-mauve px-1.5 py-0.5 font-semibold text-[10px] uppercase tracking-[0.14em] text-primary-foreground">
+						Dashboard
+					</span>
+					<span>
+						<span className="font-semibold text-fg">{problems.length}</span>{" "}
+						problems
+					</span>
+				</div>
+
+				<section
+					className="animate-rise-in mt-5"
+					style={{ animationDelay: "60ms" }}
+				>
+					{problems.length === 0 ? (
+						<div className="flex flex-col items-center gap-4 rounded-xl border border-dashed border-line-strong bg-bg-panel px-8 py-14 text-center">
+							<p className="text-sm text-fg-soft">
+								No problems yet. Select “New problem” to add the first one.
+							</p>
+							<Button size="sm" onClick={() => setForm({ mode: "create" })}>
+								<Plus />
+								New problem
+							</Button>
+						</div>
+					) : (
+						<div className="overflow-x-auto rounded-xl border border-line bg-bg-panel shadow-[0_1px_2px_rgba(17,17,27,0.05)]">
+							<table className="w-full min-w-190 border-collapse text-left">
+								<thead>
+									<tr className="border-b border-line font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-fg-faint">
+										<th className="px-5 py-2.5 font-medium">#</th>
+										<th className="px-4 py-2.5 font-medium">Title</th>
+										<th className="px-4 py-2.5 font-medium">Difficulty</th>
+										<th className="px-4 py-2.5 font-medium">Examples</th>
+										<th className="px-4 py-2.5 font-medium">Versions</th>
+										<th className="px-4 py-2.5 font-medium">Updated</th>
+										<th className="px-5 py-2.5 text-right font-medium">
+											Actions
+										</th>
 									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
-				)}
-			</section>
+								</thead>
+								<tbody>
+									{problems.map((p) => (
+										<tr
+											key={p.id}
+											className="border-b border-line transition-colors last:border-b-0 hover:bg-fg/[0.03]"
+										>
+											<td className="px-5 py-3 font-mono text-xs text-fg-faint">
+												{String(p.id).padStart(3, "0")}
+											</td>
+											<td className="px-4 py-3">
+												<Link
+													to="/problems/$problemId"
+													params={{ problemId: String(p.id) }}
+													className="font-medium text-sm text-fg transition-colors hover:text-ctp-mauve"
+												>
+													{p.title}
+												</Link>
+											</td>
+											<td className="px-4 py-3">
+												<DifficultyBadge difficulty={p.difficulty} />
+											</td>
+											<td className="px-4 py-3 font-mono text-xs text-fg-soft">
+												{p.examples.length}
+											</td>
+											<td className="px-4 py-3">
+												<div className="flex gap-1.5 font-mono text-[11px] text-fg-faint">
+													{p.solutions.map((s) => {
+														const lang = LANGUAGES.find(
+															(l) => l.id === s.language,
+														);
+														return (
+															<span
+																key={s.language}
+																className="rounded-md border border-line px-1.5 py-0.5"
+															>
+																{lang?.short ?? s.language}
+																<span className="text-fg-soft">
+																	{" "}
+																	v{s.version}
+																</span>
+															</span>
+														);
+													})}
+												</div>
+											</td>
+											<td className="px-4 py-3 font-mono text-xs text-fg-soft">
+												{formatDateTime(p.updatedAt)}
+											</td>
+											<td className="px-5 py-3">
+												<div className="flex justify-end gap-1">
+													<Button
+														variant="ghost"
+														size="icon-sm"
+														aria-label={`Edit "${p.title}"`}
+														onClick={() =>
+															setForm({ mode: "edit", problem: p })
+														}
+													>
+														<Pencil />
+													</Button>
+													<Button
+														variant="ghost"
+														size="icon-sm"
+														aria-label={`Delete "${p.title}"`}
+														className="text-ctp-red hover:bg-ctp-red/10 hover:text-ctp-red"
+														onClick={() => {
+															setDeleteError(null);
+															setPendingDelete(p);
+														}}
+													>
+														<Trash2 />
+													</Button>
+												</div>
+											</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+						</div>
+					)}
+				</section>
+			</main>
 
 			<ProblemFormDialog
 				open={form !== null}
@@ -239,7 +247,7 @@ function Dashboard() {
 				<AlertDialogContent>
 					<AlertDialogTitle>Delete “{pendingDelete?.title}”?</AlertDialogTitle>
 					{deleteError && (
-						<p className="mt-3 text-sm text-rose">{deleteError}</p>
+						<p className="mt-3 text-sm text-ctp-red">{deleteError}</p>
 					)}
 					<AlertDialogFooter>
 						<Button
@@ -259,6 +267,6 @@ function Dashboard() {
 					</AlertDialogFooter>
 				</AlertDialogContent>
 			</AlertDialog>
-		</main>
+		</div>
 	);
 }

@@ -114,6 +114,9 @@ importers:
       '@biomejs/biome':
         specifier: 2.4.5
         version: 2.4.5
+      '@catppuccin/tailwindcss':
+        specifier: ^1.0.0
+        version: 1.0.0
       '@tailwindcss/typography':
         specifier: ^0.5.20
         version: 0.5.20(tailwindcss@4.3.3)
@@ -319,6 +322,10 @@ packages:
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
+
+  '@catppuccin/tailwindcss@1.0.0':
+    resolution: {integrity: sha512-l8pOlcYe2ncGd8a1gUmL5AHmKlxR2+CHuG5kt4Me6IZwzntW1DoLmj89BH+DcsPHBsdDGLrTSv35emlYyU3FeQ==}
+    engines: {node: '>=22.0.0'}
 
   '@electric-sql/pglite-socket@0.1.3':
     resolution: {integrity: sha512-LAciWM0M1dCL8hlsxu2venbVZcdxema0BtDfpWYVqr+Y468UADw0pFWidhKw1M8sfJ8rdLT71tjMmnirf/IZRQ==}
@@ -3453,6 +3460,8 @@ snapshots:
 
   '@biomejs/cli-win32-x64@2.4.5':
     optional: true
+
+  '@catppuccin/tailwindcss@1.0.0': {}
 
   '@electric-sql/pglite-socket@0.1.3(@electric-sql/pglite@0.4.3)':
     dependencies:

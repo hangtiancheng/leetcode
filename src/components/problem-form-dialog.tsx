@@ -28,12 +28,12 @@ function makeRow(input = "", output = ""): ExampleRow {
 }
 
 const DIFFICULTY_SELECTED: Record<Difficulty, string> = {
-	Easy: "border-pine bg-pine-wash text-pine-deep",
-	Medium: "border-amber bg-amber-wash text-amber",
-	Hard: "border-rose bg-rose-wash text-rose",
+	Easy: "border-ctp-green/50 bg-ctp-green/12 text-ctp-green",
+	Medium: "border-ctp-yellow/50 bg-ctp-yellow/12 text-ctp-yellow",
+	Hard: "border-ctp-red/50 bg-ctp-red/12 text-ctp-red",
 };
 
-const GROUP_CAPTION = "block font-medium text-[13px] text-ink-soft";
+const GROUP_CAPTION = "block font-medium text-[13px] text-fg-soft";
 
 export function ProblemFormDialog({
 	open,
@@ -149,10 +149,10 @@ export function ProblemFormDialog({
 											key={d.id}
 											className={cn(
 												"cursor-pointer rounded-full border px-3.5 py-1 font-medium text-sm transition-colors",
-												"has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-pine",
+												"has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ctp-mauve",
 												selected
 													? DIFFICULTY_SELECTED[d.id]
-													: "border-line-strong text-ink-soft hover:bg-ink/4",
+													: "border-line-strong text-fg-soft hover:bg-fg/[0.05]",
 											)}
 										>
 											<input
@@ -186,10 +186,10 @@ export function ProblemFormDialog({
 							{examples.map((example, i) => (
 								<div
 									key={example.key}
-									className="space-y-3 rounded-xl border border-line bg-paper p-3.5"
+									className="space-y-3 rounded-lg border border-line bg-bg-panel p-3.5"
 								>
 									<div className="flex items-center justify-between">
-										<span className="font-medium font-mono text-ink-soft text-xs">
+										<span className="font-medium font-mono text-fg-soft text-xs">
 											Example {i + 1}
 										</span>
 										<Button
@@ -249,7 +249,7 @@ export function ProblemFormDialog({
 						</div>
 					</div>
 
-					{error && <p className="mt-4 text-rose text-sm">{error}</p>}
+					{error && <p className="mt-4 text-ctp-red text-sm">{error}</p>}
 
 					<DialogFooter>
 						<Button

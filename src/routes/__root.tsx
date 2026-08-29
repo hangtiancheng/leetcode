@@ -21,6 +21,16 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
+				name: "theme-color",
+				media: "(prefers-color-scheme: light)",
+				content: "#e6e9ef",
+			},
+			{
+				name: "theme-color",
+				media: "(prefers-color-scheme: dark)",
+				content: "#11111b",
+			},
+			{
 				title: "Playground",
 			},
 		],
@@ -40,7 +50,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<head>
 				<HeadContent />
 			</head>
-			<body className="min-h-full bg-paper font-sans text-ink antialiased selection:bg-pine/18">
+			<body className="min-h-full bg-background font-sans text-foreground antialiased selection:bg-ctp-mauve/30">
 				{children}
 				<Scripts />
 			</body>

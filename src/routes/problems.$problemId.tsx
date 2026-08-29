@@ -4,7 +4,7 @@ import {
 	notFound,
 	useRouter,
 } from "@tanstack/react-router";
-import { ArrowLeft, Stamp, Undo2 } from "lucide-react";
+import { ArrowLeft, CloudCheck, Undo2 } from "lucide-react";
 import * as React from "react";
 
 import { CodeEditor } from "#/components/code-editor.tsx";
@@ -39,10 +39,10 @@ export const Route = createFileRoute("/problems/$problemId")({
 function ProblemNotFound() {
 	return (
 		<main className="flex min-h-dvh flex-col items-center justify-center gap-4">
-			<p className="font-mono text-xs tracking-[0.28em] text-ink-faint uppercase">
+			<p className="font-mono text-xs tracking-[0.28em] text-fg-faint uppercase">
 				404 · Not Found
 			</p>
-			<h1 className="font-display text-2xl font-semibold text-ink">
+			<h1 className="font-display text-2xl font-semibold text-fg">
 				Problem not found
 			</h1>
 			<Link to="/">
@@ -161,20 +161,20 @@ function ProblemPage() {
 
 	return (
 		<div className="flex min-h-dvh flex-col lg:h-dvh">
-			<header className="flex h-14 shrink-0 items-center justify-between gap-3 border-b border-line bg-paper px-4 sm:px-6">
+			<header className="flex h-12 shrink-0 items-center justify-between gap-3 border-b border-line bg-bg-panel px-4 sm:px-5">
 				<div className="flex min-w-0 items-center gap-3">
 					<Link
 						to="/"
-						className="font-display flex items-center gap-2 text-sm font-semibold tracking-tight text-ink transition-colors hover:text-pine-deep"
+						className="flex items-center gap-2 font-mono text-[13px] font-semibold tracking-tight text-fg transition-colors hover:text-ctp-mauve"
 					>
-						<ArrowLeft className="size-4" />
-						Playground
+						<ArrowLeft className="size-3.5" />
+						playground
 					</Link>
 					<span className="h-4 w-px bg-line-strong" />
-					<span className="font-mono text-xs text-ink-faint">
+					<span className="font-mono text-xs text-fg-faint">
 						#{String(problem.id).padStart(3, "0")}
 					</span>
-					<span className="truncate text-sm font-medium text-ink">
+					<span className="truncate text-sm font-medium text-fg">
 						{problem.title}
 					</span>
 					<DifficultyBadge
@@ -184,7 +184,7 @@ function ProblemPage() {
 				</div>
 				<Link
 					to="/dashboard"
-					className="shrink-0 font-mono text-[11px] text-ink-faint transition-colors hover:text-pine-deep"
+					className="shrink-0 font-mono text-[11px] text-fg-faint transition-colors hover:text-fg"
 				>
 					Dashboard
 				</Link>
@@ -192,37 +192,37 @@ function ProblemPage() {
 
 			<div className="flex flex-1 flex-col lg:grid lg:min-h-0 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
 				{/* Problem statement */}
-				<article className="scroll-quiet px-6 py-8 sm:px-10 lg:min-h-0 lg:overflow-y-auto lg:py-10">
-					<h1 className="font-display font-bold text-3xl text-ink tracking-tight">
+				<article className="scroll-quiet bg-bg-panel px-6 py-7 sm:px-9 lg:min-h-0 lg:overflow-y-auto">
+					<h1 className="font-display text-[26px] font-bold tracking-tight text-fg">
 						{problem.title}
 					</h1>
 					<div className="mt-3">
 						<DifficultyBadge difficulty={problem.difficulty} />
 					</div>
 
-					<p className="mt-6 text-[15px] leading-7 whitespace-pre-line text-ink/90">
+					<p className="mt-5 text-[15px] leading-7 whitespace-pre-line text-fg/85">
 						{problem.description}
 					</p>
 
-					<div className="mt-10 space-y-4">
+					<div className="mt-8 space-y-4">
 						{problem.examples.map((example, i) => (
 							<section
 								key={example.id}
-								className="overflow-hidden rounded-xl border border-line bg-paper-raised"
+								className="overflow-hidden rounded-lg border border-line bg-bg-raised"
 							>
-								<header className="border-b border-line bg-ink/3 px-4 py-2 font-mono text-xs font-medium text-ink-soft">
+								<header className="border-b border-line bg-fg/3 px-4 py-1.5 font-mono text-[11px] font-medium text-fg-soft">
 									Example {i + 1}
 								</header>
 								<div className="space-y-3 p-4">
 									<div>
-										<p className="text-xs font-medium text-ink-faint">Input</p>
-										<pre className="mt-1.5 rounded-lg bg-ink/4 px-3 py-2 font-mono text-[13px] leading-6 whitespace-pre-wrap text-ink">
+										<p className="text-xs font-medium text-fg-faint">Input</p>
+										<pre className="mt-1.5 rounded-md bg-bg-well px-3 py-2 font-mono text-[13px] leading-6 whitespace-pre-wrap text-fg">
 											{example.input}
 										</pre>
 									</div>
 									<div>
-										<p className="text-xs font-medium text-ink-faint">Output</p>
-										<pre className="mt-1.5 rounded-lg bg-ink/4 px-3 py-2 font-mono text-[13px] leading-6 whitespace-pre-wrap text-ink">
+										<p className="text-xs font-medium text-fg-faint">Output</p>
+										<pre className="mt-1.5 rounded-md bg-bg-well px-3 py-2 font-mono text-[13px] leading-6 whitespace-pre-wrap text-fg">
 											{example.output}
 										</pre>
 									</div>
@@ -231,23 +231,23 @@ function ProblemPage() {
 						))}
 					</div>
 
-					<p className="mt-10 font-mono text-[11px] text-ink-faint">
+					<p className="mt-8 font-mono text-[11px] text-fg-faint">
 						Updated {new Date(problem.updatedAt).toLocaleString("en-US")}
 					</p>
 				</article>
 
 				{/* Version action bar (mobile) */}
-				<div className="flex items-center gap-3 border-y border-line bg-paper px-4 py-2.5 lg:hidden">
+				<div className="flex items-center gap-3 border-y border-line bg-bg-panel px-4 py-2 lg:hidden">
 					<span
 						className={cn(
 							"size-2 rounded-full",
-							isDirty ? "animate-dirty-pulse bg-amber" : "bg-pine",
+							isDirty ? "animate-dirty-pulse bg-ctp-peach" : "bg-ctp-green",
 						)}
 					/>
-					<span className="font-mono text-xs text-ink-soft">
+					<span className="font-mono text-xs text-fg-soft">
 						{isDirty ? "Unsaved" : "In sync"}
 					</span>
-					<span className="rounded-md border border-line-strong bg-paper-raised px-1.5 py-0.5 font-mono text-[11px] font-semibold text-ink">
+					<span className="rounded-md border border-line-strong bg-bg-raised px-1.5 py-0.5 font-mono text-[11px] font-semibold text-fg">
 						v{version}
 					</span>
 					<div className="flex-1" />
@@ -265,14 +265,14 @@ function ProblemPage() {
 						disabled={!isDirty || busy}
 						onClick={() => setConfirm("save")}
 					>
-						<Stamp />
+						<CloudCheck />
 						Save
 					</Button>
 				</div>
 
 				{/* Solution editor */}
-				<section className="flex h-[70dvh] flex-col bg-paper-raised lg:h-auto lg:min-h-0 lg:border-line lg:border-l">
-					<div className="flex h-11 shrink-0 items-stretch justify-between border-line border-b bg-paper pr-2.5 pl-1">
+				<section className="flex h-[70dvh] flex-col bg-bg-raised lg:h-auto lg:min-h-0 lg:border-l lg:border-line">
+					<div className="flex h-11 shrink-0 items-stretch justify-between border-b border-line bg-bg-panel pr-2.5 pl-1">
 						<div className="flex items-stretch" role="tablist">
 							{LANGUAGES.map((lang) => {
 								const selected = lang.id === activeLang;
@@ -288,18 +288,18 @@ function ProblemPage() {
 										}}
 										className={cn(
 											"relative cursor-pointer px-4 font-mono text-xs transition-colors outline-none",
-											"focus-visible:-outline-offset-2 focus-visible:outline-2 focus-visible:outline-pine",
-											selected ? "text-ink" : "text-ink-faint hover:text-ink",
+											"focus-visible:-outline-offset-2 focus-visible:outline-2 focus-visible:outline-ctp-mauve",
+											selected ? "text-fg" : "text-fg-faint hover:text-fg-soft",
 										)}
 									>
 										{lang.label}
 										{isLangDirty(lang.id) && (
-											<span className="ml-1.5 align-middle text-[8px] text-amber">
+											<span className="ml-1.5 align-middle text-[8px] text-ctp-peach">
 												●
 											</span>
 										)}
 										{selected && (
-											<span className="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-pine" />
+											<span className="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-ctp-mauve" />
 										)}
 									</button>
 								);
@@ -310,10 +310,10 @@ function ProblemPage() {
 								title={isDirty ? "Unsaved edits" : "In sync with database"}
 								className={cn(
 									"size-2 rounded-full",
-									isDirty ? "animate-dirty-pulse bg-amber" : "bg-pine",
+									isDirty ? "animate-dirty-pulse bg-ctp-peach" : "bg-ctp-green",
 								)}
 							/>
-							<span className="rounded-md border border-line-strong bg-paper-raised px-1.5 py-0.5 font-mono text-[11px] font-semibold text-ink">
+							<span className="rounded-md border border-line-strong bg-bg-raised px-1.5 py-0.5 font-mono text-[11px] font-semibold text-fg">
 								v{version}
 							</span>
 							<Button
@@ -330,7 +330,7 @@ function ProblemPage() {
 								disabled={!isDirty || busy}
 								onClick={() => setConfirm("save")}
 							>
-								<Stamp />
+								<CloudCheck />
 								Save
 							</Button>
 						</div>
@@ -346,7 +346,7 @@ function ProblemPage() {
 						{stamp && (
 							<div
 								key={stamp.at}
-								className="animate-stamp-in pointer-events-none absolute top-3 right-4 z-10 rounded-full border border-pine/40 bg-paper-raised/95 px-3 py-1 font-mono text-[11px] text-pine-deep shadow-[0_2px_10px_rgba(33,36,43,0.08)]"
+								className="animate-stamp-in pointer-events-none absolute top-3 right-4 z-10 rounded-full border border-ctp-green/40 bg-bg-raised/95 px-3 py-1 font-mono text-[11px] text-ctp-green shadow-[0_2px_10px_rgba(17,17,27,0.12)]"
 							>
 								{stamp.text}
 							</div>
@@ -366,12 +366,12 @@ function ProblemPage() {
 					<AlertDialogTitle>Save as a new version?</AlertDialogTitle>
 					<AlertDialogDescription>
 						The {langLabel} solution will be saved as{" "}
-						<span className="font-mono font-semibold text-ink">
+						<span className="font-mono font-semibold text-fg">
 							v{version + 1}
 						</span>
 					</AlertDialogDescription>
 					{actionError && (
-						<p className="mt-3 text-sm text-rose">{actionError}</p>
+						<p className="mt-3 text-sm text-ctp-red">{actionError}</p>
 					)}
 					<AlertDialogFooter>
 						<Button variant="ghost" onClick={closeConfirm} disabled={busy}>
@@ -401,7 +401,7 @@ function ProblemPage() {
 						discarded.
 					</AlertDialogDescription>
 					{actionError && (
-						<p className="mt-3 text-sm text-rose">{actionError}</p>
+						<p className="mt-3 text-sm text-ctp-red">{actionError}</p>
 					)}
 					<AlertDialogFooter>
 						<Button variant="ghost" onClick={closeConfirm} disabled={busy}>

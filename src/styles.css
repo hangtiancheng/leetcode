@@ -3,170 +3,193 @@
 
 @import "tw-animate-css";
 
+/*
+ Catppuccin: latte (light) is applied at :root, mocha (dark) under the
+ `dark` variant (prefers-color-scheme). The variables below build the
+ app's semantic tokens on top of the flavour palettes.
+*/
+@import "@catppuccin/tailwindcss/mocha.css";
+
 :root {
-  /* Paper (reading surface) */
-  --paper: #f5f4ef;
-  --paper-raised: #fdfcf9;
-  --ink: #21242b;
-  --ink-soft: #666c78;
-  --ink-faint: #9aa0ab;
-  --line: #e4e1d6;
-  --line-strong: #cfccbe;
+	color-scheme: light dark;
 
-  /* Brand color: deep pine green */
-  --pine: #106b57;
-  --pine-deep: #0b5445;
-  --pine-wash: #e2ede6;
+	/* Elevation ladder: app < panel < raised */
+	--bg-app: var(--catppuccin-color-mantle);
+	--bg-panel: var(--catppuccin-color-base);
+	--bg-raised: #ffffff;
+	--bg-well: rgba(76, 79, 105, 0.05);
 
-  /* Difficulty accents */
-  --amber: #9d6a0a;
-  --amber-wash: #f5edd8;
-  --rose: #bc3f3f;
-  --rose-wash: #f8e6e2;
+	/* Text */
+	--fg: var(--catppuccin-color-text);
+	--fg-soft: var(--catppuccin-color-subtext0);
+	--fg-faint: var(--catppuccin-color-overlay1);
 
-  /* Semantic tokens (consumed by the component layer) */
-  --background: var(--paper);
-  --foreground: var(--ink);
-  --card: var(--paper-raised);
-  --card-foreground: var(--ink);
-  --popover: var(--paper-raised);
-  --popover-foreground: var(--ink);
-  --primary: var(--pine);
-  --primary-foreground: #f7faf8;
-  --secondary: var(--pine-wash);
-  --secondary-foreground: var(--pine-deep);
-  --muted: #edebe2;
-  --muted-foreground: var(--ink-soft);
-  --accent: rgba(33, 36, 43, 0.05);
-  --accent-foreground: var(--ink);
-  --destructive: var(--rose);
-  --destructive-foreground: #ffffff;
-  --border: var(--line);
-  --input: var(--line-strong);
-  --ring: rgba(16, 107, 87, 0.45);
-  --radius: 0.625rem;
+	/* Hairlines */
+	--line: var(--catppuccin-color-surface0);
+	--line-strong: var(--catppuccin-color-surface1);
+
+	/* Brand accent: mauve */
+	--primary: var(--catppuccin-color-mauve);
+	--primary-foreground: #ffffff;
+	--primary-hover: color-mix(in oklab, var(--primary) 84%, var(--fg));
+	--ring: color-mix(in oklab, var(--catppuccin-color-mauve) 45%, transparent);
+
+	/* Semantic aliases consumed by the component layer */
+	--background: var(--bg-app);
+	--foreground: var(--fg);
+	--card: var(--bg-panel);
+	--card-foreground: var(--fg);
+	--popover: var(--bg-raised);
+	--popover-foreground: var(--fg);
+	--muted: var(--catppuccin-color-surface0);
+	--muted-foreground: var(--fg-soft);
+	--accent: color-mix(in oklab, var(--fg) 6%, transparent);
+	--accent-foreground: var(--fg);
+	--destructive: var(--catppuccin-color-red);
+	--destructive-foreground: #ffffff;
+	--destructive-hover: color-mix(in oklab, var(--destructive) 84%, var(--fg));
+	--border: var(--line);
+	--input: var(--line-strong);
+
+	--radius: 0.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg-app: var(--catppuccin-color-crust);
+		--bg-panel: var(--catppuccin-color-mantle);
+		--bg-raised: var(--catppuccin-color-base);
+		--bg-well: rgba(205, 214, 244, 0.06);
+
+		--line: color-mix(in oklab, var(--catppuccin-color-surface0) 72%, transparent);
+		--line-strong: var(--catppuccin-color-surface0);
+
+		--primary-foreground: var(--catppuccin-color-crust);
+		--destructive-foreground: var(--catppuccin-color-crust);
+	}
 }
 
 @theme inline {
-  --font-sans:
-    "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
-  --font-display:
-    "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", "Maple Mono", Menlo, "Cascadia Code", ui-monospace, monospace;
+	--font-sans:
+		"PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+	--font-display:
+		"PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "Geist Mono", "Maple Mono", Menlo, "Cascadia Code", ui-monospace, monospace;
 
-  --color-paper: var(--paper);
-  --color-paper-raised: var(--paper-raised);
-  --color-ink: var(--ink);
-  --color-ink-soft: var(--ink-soft);
-  --color-ink-faint: var(--ink-faint);
-  --color-line: var(--line);
-  --color-line-strong: var(--line-strong);
-  --color-pine: var(--pine);
-  --color-pine-deep: var(--pine-deep);
-  --color-pine-wash: var(--pine-wash);
-  --color-amber: var(--amber);
-  --color-amber-wash: var(--amber-wash);
-  --color-rose: var(--rose);
-  --color-rose-wash: var(--rose-wash);
+	--color-bg-app: var(--bg-app);
+	--color-bg-panel: var(--bg-panel);
+	--color-bg-raised: var(--bg-raised);
+	--color-bg-well: var(--bg-well);
+	--color-fg: var(--fg);
+	--color-fg-soft: var(--fg-soft);
+	--color-fg-faint: var(--fg-faint);
+	--color-line: var(--line);
+	--color-line-strong: var(--line-strong);
 
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-primary-hover: var(--primary-hover);
+	--color-destructive: var(--destructive);
+	--color-destructive-foreground: var(--destructive-foreground);
+	--color-destructive-hover: var(--destructive-hover);
+	--color-secondary: color-mix(in oklab, var(--primary) 14%, transparent);
+	--color-secondary-foreground: var(--primary);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
 }
 
 @theme {
-  --animate-rise-in: rise-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
-  --animate-stamp-in: stamp-in 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
-  --animate-dirty-pulse: dirty-pulse 1.6s ease-in-out infinite;
+	--animate-rise-in: rise-in 480ms cubic-bezier(0.16, 1, 0.3, 1) both;
+	--animate-stamp-in: stamp-in 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+	--animate-dirty-pulse: dirty-pulse 1.6s ease-in-out infinite;
 
-  @keyframes rise-in {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+	@keyframes rise-in {
+		from {
+			opacity: 0;
+			transform: translateY(8px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
 
-  @keyframes stamp-in {
-    0% {
-      opacity: 0;
-      transform: scale(1.18);
-    }
-    60% {
-      transform: scale(0.97);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
+	@keyframes stamp-in {
+		0% {
+			opacity: 0;
+			transform: scale(1.18);
+		}
+		60% {
+			transform: scale(0.97);
+		}
+		100% {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
 
-  @keyframes dirty-pulse {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.35;
-    }
-  }
+	@keyframes dirty-pulse {
+		0%,
+		100% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0.35;
+		}
+	}
 }
 
 /* Scrollbar pseudo-elements have no atomic equivalent. */
 @utility scroll-quiet {
-  scrollbar-width: thin;
-  scrollbar-color: var(--line-strong) transparent;
+	scrollbar-width: thin;
+	scrollbar-color: var(--line-strong) transparent;
 
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
+	&::-webkit-scrollbar {
+		width: 8px;
+	}
 
-  &::-webkit-scrollbar-thumb {
-    background: var(--line-strong);
-    border-radius: 8px;
-  }
+	&::-webkit-scrollbar-thumb {
+		background: var(--line-strong);
+		border-radius: 8px;
+	}
 
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
+	* {
+		@apply border-border outline-ring/50;
+	}
+
+	body {
+		@apply bg-background text-foreground;
+	}
 }

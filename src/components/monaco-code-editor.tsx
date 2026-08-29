@@ -2,6 +2,7 @@ import { Editor, loader } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import editorWorker from "monaco-editor/editor/editor.worker.js?worker";
 import tsWorker from "monaco-editor/language/typescript/ts.worker.js?worker";
+import * as React from "react";
 import type { LanguageId } from "#/lib/languages.ts";
 
 self.MonacoEnvironment = {
@@ -15,39 +16,75 @@ self.MonacoEnvironment = {
 
 loader.config({ monaco });
 
-monaco.editor.defineTheme("playground", {
+monaco.editor.defineTheme("playground-latte", {
 	base: "vs",
 	inherit: true,
 	rules: [
-		{ token: "comment", foreground: "8b9097", fontStyle: "italic" },
-		{ token: "keyword", foreground: "0e6b57" },
-		{ token: "string", foreground: "9d6a0a" },
-		{ token: "number", foreground: "b0501e" },
-		{ token: "type", foreground: "2563a8" },
-		{ token: "type.identifier", foreground: "2563a8" },
-		{ token: "delimiter", foreground: "666c78" },
-		{ token: "identifier", foreground: "21242b" },
+		{ token: "comment", foreground: "8c8fa1", fontStyle: "italic" },
+		{ token: "keyword", foreground: "8839ef" },
+		{ token: "string", foreground: "40a02b" },
+		{ token: "number", foreground: "fe640b" },
+		{ token: "type", foreground: "df8e1d" },
+		{ token: "type.identifier", foreground: "df8e1d" },
+		{ token: "delimiter", foreground: "7c7f93" },
+		{ token: "identifier", foreground: "4c4f69" },
 	],
 	colors: {
-		"editor.background": "#fdfcf9",
-		"editor.foreground": "#21242b",
-		"editorLineNumber.foreground": "#c0bdb1",
-		"editorLineNumber.activeForeground": "#666c78",
-		"editorCursor.foreground": "#106b57",
-		"editor.lineHighlightBackground": "#f3f2ea",
-		"editor.selectionBackground": "#cfe5da",
-		"editor.inactiveSelectionBackground": "#e2ede6",
-		"editorIndentGuide.background1": "#edebe2",
-		"editorIndentGuide.activeBackground1": "#d9d6c9",
-		"editorWidget.background": "#fdfcf9",
-		"editorWidget.border": "#e4e1d6",
-		"editorSuggestWidget.background": "#fdfcf9",
-		"editorSuggestWidget.selectedBackground": "#e2ede6",
-		"scrollbarSlider.background": "#21242b1f",
-		"scrollbarSlider.hoverBackground": "#21242b33",
-		"scrollbarSlider.activeBackground": "#21242b45",
-		"editorBracketMatch.border": "#106b5766",
-		"editorOverviewRuler.border": "#fdfcf9",
+		"editor.background": "#ffffff",
+		"editor.foreground": "#4c4f69",
+		"editorLineNumber.foreground": "#bcc0cc",
+		"editorLineNumber.activeForeground": "#6c6f85",
+		"editorCursor.foreground": "#8839ef",
+		"editor.lineHighlightBackground": "#eff1f5",
+		"editor.selectionBackground": "#ccd0da99",
+		"editor.inactiveSelectionBackground": "#ccd0da55",
+		"editorIndentGuide.background1": "#e6e9ef",
+		"editorIndentGuide.activeBackground1": "#ccd0da",
+		"editorWidget.background": "#eff1f5",
+		"editorWidget.border": "#ccd0da",
+		"editorSuggestWidget.background": "#eff1f5",
+		"editorSuggestWidget.selectedBackground": "#dce0e8",
+		"scrollbarSlider.background": "#4c4f691f",
+		"scrollbarSlider.hoverBackground": "#4c4f6933",
+		"scrollbarSlider.activeBackground": "#4c4f6945",
+		"editorBracketMatch.border": "#8839ef66",
+		"editorOverviewRuler.border": "#ffffff",
+	},
+});
+
+monaco.editor.defineTheme("playground-mocha", {
+	base: "vs-dark",
+	inherit: true,
+	rules: [
+		{ token: "comment", foreground: "6c7086", fontStyle: "italic" },
+		{ token: "keyword", foreground: "cba6f7" },
+		{ token: "string", foreground: "a6e3a1" },
+		{ token: "number", foreground: "fab387" },
+		{ token: "type", foreground: "f9e2af" },
+		{ token: "type.identifier", foreground: "f9e2af" },
+		{ token: "delimiter", foreground: "9399b2" },
+		{ token: "identifier", foreground: "cdd6f4" },
+	],
+	colors: {
+		"editor.background": "#1e1e2e",
+		"editor.foreground": "#cdd6f4",
+		"editorLineNumber.foreground": "#45475a",
+		"editorLineNumber.activeForeground": "#a6adc8",
+		"editorCursor.foreground": "#cba6f7",
+		"editor.lineHighlightBackground": "#31324466",
+		"editor.selectionBackground": "#585b7080",
+		"editor.inactiveSelectionBackground": "#45475a66",
+		"editorIndentGuide.background1": "#313244",
+		"editorIndentGuide.activeBackground1": "#45475a",
+		"editorWidget.background": "#181825",
+		"editorWidget.border": "#313244",
+		"editorSuggestWidget.background": "#181825",
+		"editorSuggestWidget.selectedBackground": "#313244",
+		"scrollbarSlider.background": "#45475a80",
+		"scrollbarSlider.hoverBackground": "#585b7099",
+		"scrollbarSlider.activeBackground": "#6c7086b3",
+		"editorBracketMatch.border": "#cba6f766",
+		"editorOverviewRuler.border": "#1e1e2e",
 	},
 });
 
@@ -63,6 +100,19 @@ const FILE_EXT: Record<LanguageId, string> = {
 	go: "go",
 };
 
+function usePrefersDark() {
+	const [dark, setDark] = React.useState(
+		() => window.matchMedia("(prefers-color-scheme: dark)").matches,
+	);
+	React.useEffect(() => {
+		const mq = window.matchMedia("(prefers-color-scheme: dark)");
+		const onChange = () => setDark(mq.matches);
+		mq.addEventListener("change", onChange);
+		return () => mq.removeEventListener("change", onChange);
+	}, []);
+	return dark;
+}
+
 export type MonacoCodeEditorProps = {
 	problemId: number;
 	language: LanguageId;
@@ -76,24 +126,24 @@ export default function MonacoCodeEditor({
 	value,
 	onChange,
 }: MonacoCodeEditorProps) {
+	const dark = usePrefersDark();
+
 	return (
 		<Editor
-			theme="playground"
+			theme={dark ? "playground-mocha" : "playground-latte"}
 			path={`problem-${problemId}.${FILE_EXT[language]}`}
 			language={MONACO_LANGUAGE[language]}
 			value={value}
 			onChange={(code) => onChange(code ?? "")}
 			loading={
-				<span className="font-mono text-ink-faint text-xs">
-					Loading editor…
-				</span>
+				<span className="font-mono text-fg-faint text-xs">Loading editor…</span>
 			}
 			onMount={() => {
 				document.fonts.ready.then(() => monaco.editor.remeasureFonts());
 			}}
 			options={{
 				fontFamily:
-					"'Gesit Mono', 'Maple Mono', Menlo, 'Cascadia Code', ui-monospace, monospace",
+					"'Geist Mono', 'Maple Mono', Menlo, 'Cascadia Code', ui-monospace, monospace",
 				fontSize: 13,
 				lineHeight: 21,
 				fontLigatures: false,
