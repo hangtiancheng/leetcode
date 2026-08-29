@@ -1,11 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
-@import 'tailwindcss';
+@import "tailwindcss";
 @plugin '@tailwindcss/typography';
 
-@import 'tw-animate-css';
+@import "tw-animate-css";
 
 :root {
-  /* 纸面（阅读侧） */
+  /* Paper (reading surface) */
   --paper: #f5f4ef;
   --paper-raised: #fdfcf9;
   --ink: #21242b;
@@ -14,18 +13,18 @@
   --line: #e4e1d6;
   --line-strong: #cfccbe;
 
-  /* 主色：深松绿 */
+  /* Brand color: deep pine green */
   --pine: #106b57;
   --pine-deep: #0b5445;
   --pine-wash: #e2ede6;
 
-  /* 难度 */
+  /* Difficulty accents */
   --amber: #9d6a0a;
   --amber-wash: #f5edd8;
   --rose: #bc3f3f;
   --rose-wash: #f8e6e2;
 
-  /* 语义 token（组件层使用） */
+  /* Semantic tokens (consumed by the component layer) */
   --background: var(--paper);
   --foreground: var(--ink);
   --card: var(--paper-raised);
@@ -49,11 +48,11 @@
 }
 
 @theme inline {
-  --font-sans: 'IBM Plex Sans', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
-    ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Bricolage Grotesque', 'PingFang SC', 'Hiragino Sans GB', ui-sans-serif,
-    system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-sans:
+    "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Swifty", Menlo, "Cascadia Code", ui-monospace, monospace;
 
   --color-paper: var(--paper);
   --color-paper-raised: var(--paper-raised);
@@ -115,7 +114,7 @@ body {
   background: rgba(16, 107, 87, 0.18);
 }
 
-/* ---- 弹窗动效（base-ui data 属性） ---- */
+/* ---- Dialog animation (base-ui data attributes) ---- */
 
 .ui-backdrop {
   position: fixed;
@@ -148,7 +147,7 @@ body {
   transform: translate(-50%, -50%) scale(0.965) translateY(6px);
 }
 
-/* ---- 微动效 ---- */
+/* ---- Micro animations ---- */
 
 .rise-in {
   animation: rise-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -197,7 +196,7 @@ body {
   }
 }
 
-/* 安静的滚动条（题面侧） */
+/* Unobtrusive scrollbar (problem statement side) */
 .scroll-quiet {
   scrollbar-width: thin;
   scrollbar-color: var(--line-strong) transparent;

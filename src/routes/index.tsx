@@ -27,23 +27,23 @@ function ProblemIndex() {
 		<main className="mx-auto w-[min(880px,calc(100%-2.5rem))] pt-16 pb-20">
 			<header className="rise-in">
 				<div className="flex items-center justify-between gap-4">
-					<p className="font-mono text-[11px] font-medium tracking-[0.28em] text-pine uppercase">
-						Solution Ledger · 参考答案台账
+					<p className="font-mono text-[11px] font-medium text-pine">
+						LeetCode Problems
 					</p>
 					<Link to="/dashboard">
 						<Button variant="outline" size="sm">
-							管理题库
+							Manage library
 							<ArrowUpRight />
 						</Button>
 					</Link>
 				</div>
 				<h1 className="font-display mt-5 text-[clamp(2.6rem,6vw,3.6rem)] leading-none font-bold tracking-tight text-ink">
-					题簿<span className="text-pine">·</span>CODEBOOK
+					CODEBOOK
 				</h1>
 				<p className="mt-6 font-mono text-ink-faint text-xs">
-					收录 {problems.length} 题 ·{" "}
+					{problems.length} problems ·{" "}
 					{LANGUAGES.map((l) => l.short).join(" / ")}
-					{latest ? ` · 最近更新 ${formatDate(latest)}` : ""}
+					{latest ? ` · Last updated ${formatDate(latest)}` : ""}
 				</p>
 			</header>
 
@@ -52,10 +52,11 @@ function ProblemIndex() {
 					<div className="rise-in flex flex-col items-center gap-4 rounded-2xl border border-dashed border-line-strong bg-paper-raised px-8 py-16 text-center">
 						<BookOpenText className="size-8 text-ink-faint" />
 						<p className="text-sm text-ink-soft">
-							题库还是空的。去管理台创建第一道题。
+							The library is empty. Head to the dashboard to add the first
+							problem.
 						</p>
 						<Link to="/dashboard">
-							<Button size="sm">新建题目</Button>
+							<Button size="sm">New problem</Button>
 						</Link>
 					</div>
 				) : (

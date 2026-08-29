@@ -13,15 +13,16 @@ export const LANGUAGE_IDS = LANGUAGES.map((l) => l.id) as [
 ];
 
 export const STARTER_CODE: Record<LanguageId, string> = {
-	typescript: "function solve(): void {\n  // TODO: 补充参考答案\n}\n",
-	javascript: "function solve() {\n  // TODO: 补充参考答案\n}\n",
-	go: "func solve() {\n\t// TODO: 补充参考答案\n}\n",
+	typescript:
+		"function solve(): void {\n  // TODO: add reference solution\n}\n",
+	javascript: "function solve() {\n  // TODO: add reference solution\n}\n",
+	go: "func solve() {\n\t// TODO: add reference solution\n}\n",
 };
 
 export const DIFFICULTIES = [
-	{ id: "Easy", label: "简单" },
-	{ id: "Medium", label: "中等" },
-	{ id: "Hard", label: "困难" },
+	{ id: "Easy", label: "Easy" },
+	{ id: "Medium", label: "Medium" },
+	{ id: "Hard", label: "Hard" },
 ] as const;
 
 export type Difficulty = (typeof DIFFICULTIES)[number]["id"];

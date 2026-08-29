@@ -9,7 +9,7 @@ const MonacoCodeEditor = React.lazy(
 function EditorSkeleton() {
 	return (
 		<div className="flex h-full items-center justify-center bg-paper-raised">
-			<span className="font-mono text-ink-faint text-xs">正在加载编辑器…</span>
+			<span className="font-mono text-ink-faint text-xs">Loading editor…</span>
 		</div>
 	);
 }

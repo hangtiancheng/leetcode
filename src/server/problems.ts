@@ -4,15 +4,15 @@ import { prisma } from "#/db.ts";
 import { LANGUAGE_IDS, STARTER_CODE } from "#/lib/languages.ts";
 
 const exampleSchema = z.object({
-	input: z.string().min(1, "示例输入不能为空"),
-	output: z.string().min(1, "示例输出不能为空"),
+	input: z.string().min(1, "Example input is required"),
+	output: z.string().min(1, "Example output is required"),
 });
 
 const problemFields = z.object({
-	title: z.string().trim().min(1, "标题不能为空"),
+	title: z.string().trim().min(1, "Title is required"),
 	difficulty: z.enum(["Easy", "Medium", "Hard"]),
-	description: z.string().trim().min(1, "题目描述不能为空"),
-	examples: z.array(exampleSchema).min(1, "至少需要一个示例"),
+	description: z.string().trim().min(1, "Problem description is required"),
+	examples: z.array(exampleSchema).min(1, "At least one example is required"),
 });
 
 const languageSchema = z.enum(LANGUAGE_IDS);
@@ -111,7 +111,7 @@ export const saveSolution = createServerFn({ method: "POST" })
 				},
 			},
 		});
-		if (!solution) throw new Error("未找到该语言的参考答案");
+		if (!solution) throw new Error("No solution found for this language");
 
 		return prisma.$transaction(async (tx) => {
 			await tx.solutionRevision.create({
@@ -145,13 +145,14 @@ export const rollbackSolution = createServerFn({ method: "POST" })
 				},
 			},
 		});
-		if (!solution) throw new Error("未找到该语言的参考答案");
+		if (!solution) throw new Error("No solution found for this language");
 
 		const lastRevision = await prisma.solutionRevision.findFirst({
 			where: { solutionId: solution.id },
 			orderBy: { version: "desc" },
 		});
-		if (!lastRevision) throw new Error("没有可回滚的历史版本");
+		if (!lastRevision)
+			throw new Error("No previous revision available to restore");
 
 		return prisma.$transaction(async (tx) => {
 			await tx.solutionRevision.delete({ where: { id: lastRevision.id } });

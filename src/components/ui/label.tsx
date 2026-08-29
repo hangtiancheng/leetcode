@@ -4,7 +4,7 @@ import { cn } from "#/lib/utils.ts";
 
 function Label({ className, ...props }: React.ComponentProps<"label">) {
 	return (
-		// biome-ignore lint/a11y/noLabelWithoutControl: htmlFor 由调用方通过 props 传入
+		// biome-ignore lint/a11y/noLabelWithoutControl: htmlFor is supplied by the caller via props
 		<label
 			data-slot="label"
 			className={cn(

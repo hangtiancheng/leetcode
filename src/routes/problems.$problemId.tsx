@@ -34,7 +34,7 @@ export const Route = createFileRoute("/problems/$problemId")({
 		return problem;
 	},
 	head: ({ loaderData }) => ({
-		meta: [{ title: `${loaderData?.title ?? "题目"} · 题簿 CODEBOOK` }],
+		meta: [{ title: `${loaderData?.title ?? "Problem"} · CODEBOOK` }],
 	}),
 	notFoundComponent: ProblemNotFound,
 	component: ProblemPage,
@@ -47,12 +47,12 @@ function ProblemNotFound() {
 				404 · Not Found
 			</p>
 			<h1 className="font-display text-2xl font-semibold text-ink">
-				没有找到这道题
+				Problem not found
 			</h1>
 			<Link to="/">
 				<Button variant="outline" size="sm">
 					<ArrowLeft />
-					返回题簿
+					Back to library
 				</Button>
 			</Link>
 		</main>
@@ -126,10 +126,12 @@ function ProblemPage() {
 			});
 			await router.invalidate();
 			clearDraft(activeLang);
-			setStamp({ text: `已保存 · v${updated.version}`, at: Date.now() });
+			setStamp({ text: `Saved · v${updated.version}`, at: Date.now() });
 			setConfirm(null);
 		} catch (e) {
-			setActionError(e instanceof Error ? e.message : "保存失败，请重试");
+			setActionError(
+				e instanceof Error ? e.message : "Save failed, please try again",
+			);
 		} finally {
 			setBusy(false);
 		}
@@ -145,10 +147,12 @@ function ProblemPage() {
 			});
 			await router.invalidate();
 			clearDraft(activeLang);
-			setStamp({ text: `已回滚 · v${updated.version}`, at: Date.now() });
+			setStamp({ text: `Reverted · v${updated.version}`, at: Date.now() });
 			setConfirm(null);
 		} catch (e) {
-			setActionError(e instanceof Error ? e.message : "回滚失败，请重试");
+			setActionError(
+				e instanceof Error ? e.message : "Revert failed, please try again",
+			);
 		} finally {
 			setBusy(false);
 		}
@@ -168,7 +172,7 @@ function ProblemPage() {
 						className="font-display flex items-center gap-2 text-sm font-semibold tracking-tight text-ink transition-colors hover:text-pine-deep"
 					>
 						<ArrowLeft className="size-4" />
-						题簿
+						Codebook
 					</Link>
 					<span className="h-4 w-px bg-line-strong" />
 					<span className="font-mono text-xs text-ink-faint">
@@ -186,12 +190,12 @@ function ProblemPage() {
 					to="/dashboard"
 					className="shrink-0 font-mono text-[11px] text-ink-faint transition-colors hover:text-pine-deep"
 				>
-					管理题库
+					Manage library
 				</Link>
 			</header>
 
 			<div className="flex flex-1 flex-col lg:grid lg:min-h-0 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
-				{/* 题面 */}
+				{/* Problem statement */}
 				<article className="scroll-quiet px-6 py-8 sm:px-10 lg:min-h-0 lg:overflow-y-auto lg:py-10">
 					<h1 className="font-display font-bold text-3xl text-ink tracking-tight">
 						{problem.title}
@@ -211,17 +215,17 @@ function ProblemPage() {
 								className="overflow-hidden rounded-xl border border-line bg-paper-raised"
 							>
 								<header className="border-b border-line bg-ink/[0.03] px-4 py-2 font-mono text-xs font-medium text-ink-soft">
-									示例 {i + 1}
+									Example {i + 1}
 								</header>
 								<div className="space-y-3 p-4">
 									<div>
-										<p className="text-xs font-medium text-ink-faint">输入</p>
+										<p className="text-xs font-medium text-ink-faint">Input</p>
 										<pre className="mt-1.5 rounded-lg bg-ink/[0.04] px-3 py-2 font-mono text-[13px] leading-6 whitespace-pre-wrap text-ink">
 											{example.input}
 										</pre>
 									</div>
 									<div>
-										<p className="text-xs font-medium text-ink-faint">输出</p>
+										<p className="text-xs font-medium text-ink-faint">Output</p>
 										<pre className="mt-1.5 rounded-lg bg-ink/[0.04] px-3 py-2 font-mono text-[13px] leading-6 whitespace-pre-wrap text-ink">
 											{example.output}
 										</pre>
@@ -232,11 +236,11 @@ function ProblemPage() {
 					</div>
 
 					<p className="mt-10 font-mono text-[11px] text-ink-faint">
-						更新于 {new Date(problem.updatedAt).toLocaleString("zh-CN")}
+						Updated {new Date(problem.updatedAt).toLocaleString("en-US")}
 					</p>
 				</article>
 
-				{/* 版本操作条（移动端） */}
+				{/* Version action bar (mobile) */}
 				<div className="flex items-center gap-3 border-y border-line bg-paper px-4 py-2.5 lg:hidden">
 					<span
 						className={cn(
@@ -245,7 +249,7 @@ function ProblemPage() {
 						)}
 					/>
 					<span className="font-mono text-xs text-ink-soft">
-						{isDirty ? "未保存" : "已同步"}
+						{isDirty ? "Unsaved" : "In sync"}
 					</span>
 					<span className="rounded-md border border-line-strong bg-paper-raised px-1.5 py-0.5 font-mono text-[11px] font-semibold text-ink">
 						v{version}
@@ -258,7 +262,7 @@ function ProblemPage() {
 						onClick={() => setConfirm("rollback")}
 					>
 						<Undo2 />
-						回滚
+						Revert
 					</Button>
 					<Button
 						size="sm"
@@ -266,11 +270,11 @@ function ProblemPage() {
 						onClick={() => setConfirm("save")}
 					>
 						<Stamp />
-						保存
+						Save
 					</Button>
 				</div>
 
-				{/* 参考答案编辑器 */}
+				{/* Solution editor */}
 				<section className="flex h-[70dvh] flex-col bg-paper-raised lg:h-auto lg:min-h-0 lg:border-line lg:border-l">
 					<div className="flex h-11 shrink-0 items-stretch justify-between border-line border-b bg-paper pr-2.5 pl-1">
 						<div className="flex items-stretch" role="tablist">
@@ -307,7 +311,7 @@ function ProblemPage() {
 						</div>
 						<div className="hidden items-center gap-2.5 lg:flex">
 							<span
-								title={isDirty ? "有未保存的编辑" : "与数据库一致"}
+								title={isDirty ? "Unsaved edits" : "In sync with database"}
 								className={cn(
 									"size-2 rounded-full",
 									isDirty ? "dirty-dot bg-amber" : "bg-pine",
@@ -323,7 +327,7 @@ function ProblemPage() {
 								onClick={() => setConfirm("rollback")}
 							>
 								<Undo2 />
-								回滚·{revisionCount}
+								Revert · {revisionCount}
 							</Button>
 							<Button
 								size="sm"
@@ -331,7 +335,7 @@ function ProblemPage() {
 								onClick={() => setConfirm("save")}
 							>
 								<Stamp />
-								保存
+								Save
 							</Button>
 						</div>
 					</div>
@@ -355,7 +359,7 @@ function ProblemPage() {
 				</section>
 			</div>
 
-			{/* 保存确认 */}
+			{/* Save confirmation */}
 			<AlertDialog
 				open={confirm === "save"}
 				onOpenChange={(open) => {
@@ -363,29 +367,30 @@ function ProblemPage() {
 				}}
 			>
 				<AlertDialogContent>
-					<AlertDialogTitle>保存新版本？</AlertDialogTitle>
+					<AlertDialogTitle>Save as a new version?</AlertDialogTitle>
 					<AlertDialogDescription>
-						将把 {langLabel} 参考答案保存为{" "}
+						The {langLabel} solution will be saved as{" "}
 						<span className="font-mono font-semibold text-ink">
 							v{version + 1}
 						</span>
-						，原 v{version} 存入历史，可随时回滚。
+						. The current v{version} is kept in history and can be restored at
+						any time.
 					</AlertDialogDescription>
 					{actionError && (
 						<p className="mt-3 text-sm text-rose">{actionError}</p>
 					)}
 					<AlertDialogFooter>
 						<Button variant="ghost" onClick={closeConfirm} disabled={busy}>
-							取消
+							Cancel
 						</Button>
 						<Button onClick={handleSave} disabled={busy}>
-							{busy ? "保存中…" : "确认保存"}
+							{busy ? "Saving…" : "Save version"}
 						</Button>
 					</AlertDialogFooter>
 				</AlertDialogContent>
 			</AlertDialog>
 
-			{/* 回滚确认 */}
+			{/* Revert confirmation */}
 			<AlertDialog
 				open={confirm === "rollback"}
 				onOpenChange={(open) => {
@@ -394,25 +399,26 @@ function ProblemPage() {
 			>
 				<AlertDialogContent>
 					<AlertDialogTitle>
-						回滚到 v{Math.max(version - 1, 1)}？
+						Revert to v{Math.max(version - 1, 1)}?
 					</AlertDialogTitle>
 					<AlertDialogDescription>
-						{langLabel} 参考答案将恢复为上一版本，当前 v{version}{" "}
-						的代码与未保存的编辑都会被丢弃。
+						The {langLabel} solution will be restored to its previous version.
+						The code of the current v{version} and any unsaved edits will be
+						discarded.
 					</AlertDialogDescription>
 					{actionError && (
 						<p className="mt-3 text-sm text-rose">{actionError}</p>
 					)}
 					<AlertDialogFooter>
 						<Button variant="ghost" onClick={closeConfirm} disabled={busy}>
-							取消
+							Cancel
 						</Button>
 						<Button
 							variant="destructive"
 							onClick={handleRollback}
 							disabled={busy}
 						>
-							{busy ? "回滚中…" : "确认回滚"}
+							{busy ? "Reverting…" : "Revert"}
 						</Button>
 					</AlertDialogFooter>
 				</AlertDialogContent>

@@ -4,7 +4,6 @@ import { Button } from "#/components/ui/button.tsx";
 import {
 	Dialog,
 	DialogContent,
-	DialogDescription,
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
@@ -79,12 +78,12 @@ export function ProblemFormDialog({
 	};
 
 	const validate = (): string | null => {
-		if (!title.trim()) return "请填写题目标题";
-		if (!description.trim()) return "请填写题目描述";
-		if (examples.length === 0) return "至少需要一个示例";
+		if (!title.trim()) return "Please enter a problem title";
+		if (!description.trim()) return "Please enter a problem description";
+		if (examples.length === 0) return "At least one example is required";
 		for (let i = 0; i < examples.length; i++) {
 			if (!examples[i].input.trim() || !examples[i].output.trim()) {
-				return `示例 ${i + 1} 的输入和输出都不能为空`;
+				return `Both input and output of example ${i + 1} are required`;
 			}
 		}
 		return null;
@@ -108,7 +107,9 @@ export function ProblemFormDialog({
 			});
 			onOpenChange(false);
 		} catch (e) {
-			setError(e instanceof Error ? e.message : "提交失败，请重试");
+			setError(
+				e instanceof Error ? e.message : "Submission failed, please try again",
+			);
 		} finally {
 			setBusy(false);
 		}
@@ -124,27 +125,22 @@ export function ProblemFormDialog({
 			<DialogContent className="w-[min(640px,calc(100vw-2rem))]">
 				<form onSubmit={handleSubmit}>
 					<DialogHeader>
-						<DialogTitle>{isEdit ? "编辑题目" : "新建题目"}</DialogTitle>
-						<DialogDescription>
-							{isEdit
-								? "修改题面与示例。参考答案请在题目预览页编辑。"
-								: "创建后会自动生成 TS / JS / Go 三份参考答案骨架，可在预览页补充。"}
-						</DialogDescription>
+						<DialogTitle>{isEdit ? "Edit problem" : "New problem"}</DialogTitle>
 					</DialogHeader>
 
 					<div className="scroll-quiet max-h-[62dvh] space-y-5 overflow-y-auto pr-1">
 						<div className="space-y-1.5">
-							<Label htmlFor="problem-title">标题</Label>
+							<Label htmlFor="problem-title">Title</Label>
 							<Input
 								id="problem-title"
 								value={title}
 								onChange={(e) => setTitle(e.target.value)}
-								placeholder="例如：两数之和"
+								placeholder="e.g. Two Sum"
 							/>
 						</div>
 
 						<fieldset className="space-y-1.5">
-							<legend className={GROUP_CAPTION}>难度</legend>
+							<legend className={GROUP_CAPTION}>Difficulty</legend>
 							<div className="flex gap-2 pt-1.5">
 								{DIFFICULTIES.map((d) => {
 									const selected = difficulty === d.id;
@@ -175,18 +171,18 @@ export function ProblemFormDialog({
 						</fieldset>
 
 						<div className="space-y-1.5">
-							<Label htmlFor="problem-description">题目描述</Label>
+							<Label htmlFor="problem-description">Description</Label>
 							<Textarea
 								id="problem-description"
 								rows={6}
 								value={description}
 								onChange={(e) => setDescription(e.target.value)}
-								placeholder="题面正文，空行分段。"
+								placeholder="Problem statement. Use blank lines to separate paragraphs."
 							/>
 						</div>
 
 						<div className="space-y-3">
-							<span className={GROUP_CAPTION}>示例</span>
+							<span className={GROUP_CAPTION}>Examples</span>
 							{examples.map((example, i) => (
 								<div
 									key={example.key}
@@ -194,12 +190,12 @@ export function ProblemFormDialog({
 								>
 									<div className="flex items-center justify-between">
 										<span className="font-medium font-mono text-ink-soft text-xs">
-											示例 {i + 1}
+											Example {i + 1}
 										</span>
 										<Button
 											variant="ghost"
 											size="icon-sm"
-											aria-label={`删除示例 ${i + 1}`}
+											aria-label={`Remove example ${i + 1}`}
 											disabled={examples.length <= 1}
 											onClick={() =>
 												setExamples((prev) =>
@@ -211,7 +207,9 @@ export function ProblemFormDialog({
 										</Button>
 									</div>
 									<div className="space-y-1.5">
-										<Label htmlFor={`example-input-${example.key}`}>输入</Label>
+										<Label htmlFor={`example-input-${example.key}`}>
+											Input
+										</Label>
 										<Textarea
 											id={`example-input-${example.key}`}
 											rows={2}
@@ -225,7 +223,7 @@ export function ProblemFormDialog({
 									</div>
 									<div className="space-y-1.5">
 										<Label htmlFor={`example-output-${example.key}`}>
-											输出
+											Output
 										</Label>
 										<Input
 											id={`example-output-${example.key}`}
@@ -246,7 +244,7 @@ export function ProblemFormDialog({
 								onClick={() => setExamples((prev) => [...prev, makeRow()])}
 							>
 								<Plus />
-								添加示例
+								Add example
 							</Button>
 						</div>
 					</div>
@@ -259,10 +257,14 @@ export function ProblemFormDialog({
 							onClick={() => onOpenChange(false)}
 							disabled={busy}
 						>
-							取消
+							Cancel
 						</Button>
 						<Button type="submit" disabled={busy}>
-							{busy ? "提交中…" : isEdit ? "保存修改" : "创建题目"}
+							{busy
+								? "Submitting…"
+								: isEdit
+									? "Save changes"
+									: "Create problem"}
 						</Button>
 					</DialogFooter>
 				</form>

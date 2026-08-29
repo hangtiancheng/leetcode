@@ -85,14 +85,14 @@ export default function MonacoCodeEditor({
 			onChange={(code) => onChange(code ?? "")}
 			loading={
 				<span className="font-mono text-ink-faint text-xs">
-					正在加载编辑器…
+					Loading editor…
 				</span>
 			}
 			onMount={() => {
 				document.fonts.ready.then(() => monaco.editor.remeasureFonts());
 			}}
 			options={{
-				fontFamily: "'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace",
+				fontFamily: "'Swifty', Menlo, 'Cascadia Code', monospace",
 				fontSize: 13,
 				lineHeight: 21,
 				fontLigatures: false,
