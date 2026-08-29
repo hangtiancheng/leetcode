@@ -304,8 +304,6 @@ function ProblemPage() {
 
 				{/* Split handle (desktop) */}
 				<div
-					role="separator"
-					aria-orientation="vertical"
 					onPointerDown={startSplitDrag}
 					className={cn(
 						"group relative hidden w-[5px] cursor-col-resize lg:block",

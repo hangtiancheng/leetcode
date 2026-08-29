@@ -177,7 +177,6 @@ export function ProblemFormDialog({
 								rows={6}
 								value={description}
 								onChange={(e) => setDescription(e.target.value)}
-								placeholder="Problem statement. Use blank lines to separate paragraphs."
 							/>
 						</div>
 
@@ -218,7 +217,6 @@ export function ProblemFormDialog({
 											onChange={(e) =>
 												setExample(example.key, { input: e.target.value })
 											}
-											placeholder="nums = [2,7,11,15], target = 9"
 										/>
 									</div>
 									<div className="space-y-1.5">
@@ -232,7 +230,6 @@ export function ProblemFormDialog({
 											onChange={(e) =>
 												setExample(example.key, { output: e.target.value })
 											}
-											placeholder="[0,1]"
 										/>
 									</div>
 								</div>
