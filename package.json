@@ -17,12 +17,10 @@
     "db:generate": "dotenv -e .env.local -- prisma generate",
     "db:push": "dotenv -e .env.local -- prisma db push",
     "db:migrate": "dotenv -e .env.local -- prisma migrate dev",
-    "db:studio": "dotenv -e .env.local -- prisma studio",
-    "db:seed": "dotenv -e .env.local -- prisma db seed"
+    "db:studio": "dotenv -e .env.local -- prisma studio"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
-    "@faker-js/faker": "^10.6.0",
     "@monaco-editor/react": "^4.7.0",
     "@prisma/adapter-better-sqlite3": "^7.10.0",
     "@prisma/client": "^7.10.0",
@@ -67,18 +65,7 @@
     "@types/react-dom": "^19.2.5",
     "@vitejs/plugin-react": "^6.1.0",
     "dotenv-cli": "^11.0.0",
-    "tsx": "^4.23.12",
     "typescript": "^6.0.3",
     "vite": "^8.2.2"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "lightningcss",
-      "@sentry/cli",
-      "@prisma/engines",
-      "prisma",
-      "better-sqlite3"
-    ]
   }
 }
