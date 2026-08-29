@@ -124,6 +124,36 @@ function ProblemPage() {
 		});
 	};
 
+	const saveConfirmRef = React.useRef<HTMLButtonElement>(null);
+
+	React.useEffect(() => {
+		const onKeyDown = (e: KeyboardEvent) => {
+			if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+				e.preventDefault();
+				if (isDirty && !busy && active) setConfirm("save");
+			}
+		};
+		window.addEventListener("keydown", onKeyDown);
+		return () => window.removeEventListener("keydown", onKeyDown);
+	}, [isDirty, busy, active]);
+
+	React.useEffect(() => {
+		if (confirm === "save") {
+			const t = window.setTimeout(() => saveConfirmRef.current?.focus(), 50);
+			return () => window.clearTimeout(t);
+		}
+	}, [confirm]);
+
+	React.useEffect(() => {
+		if (!stamp) return;
+		const t = window.setTimeout(() => setStamp(null), 2600);
+		return () => window.clearTimeout(t);
+	}, [stamp]);
+
+	React.useEffect(() => {
+		if (isDirty) setStamp(null);
+	}, [isDirty]);
+
 	const handleChange = (code: string) => {
 		setDrafts((prev) => {
 			if (code === savedCode) {
@@ -426,7 +456,7 @@ function ProblemPage() {
 						<Button variant="ghost" onClick={closeConfirm} disabled={busy}>
 							Cancel
 						</Button>
-						<Button onClick={handleSave} disabled={busy}>
+						<Button ref={saveConfirmRef} onClick={handleSave} disabled={busy}>
 							{busy ? "Saving…" : "Save version"}
 						</Button>
 					</AlertDialogFooter>
@@ -445,9 +475,7 @@ function ProblemPage() {
 						Revert to v{Math.max(version - 1, 1)}?
 					</AlertDialogTitle>
 					<AlertDialogDescription>
-						The {langLabel} solution will be restored to its previous version.
-						The code of the current v{version} and any unsaved edits will be
-						discarded.
+						The {langLabel} solution will be restored
 					</AlertDialogDescription>
 					{actionError && (
 						<p className="mt-3 text-sm text-ctp-red">{actionError}</p>

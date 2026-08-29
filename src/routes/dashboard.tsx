@@ -11,6 +11,7 @@ import {
 import {
 	AlertDialog,
 	AlertDialogContent,
+	AlertDialogDescription,
 	AlertDialogFooter,
 	AlertDialogTitle,
 } from "#/components/ui/alert-dialog.tsx";
@@ -246,6 +247,9 @@ function Dashboard() {
 			>
 				<AlertDialogContent>
 					<AlertDialogTitle>Delete “{pendingDelete?.title}”?</AlertDialogTitle>
+					<AlertDialogDescription>
+						The problem will be permanently deleted.
+					</AlertDialogDescription>
 					{deleteError && (
 						<p className="mt-3 text-sm text-ctp-red">{deleteError}</p>
 					)}
