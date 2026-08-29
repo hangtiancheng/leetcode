@@ -1,87 +1,110 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, ArrowUpRight, BookOpenText } from "lucide-react";
 
-export const Route = createFileRoute('/')({ component: App })
+import { DifficultyBadge } from "#/components/difficulty-badge.tsx";
+import { Button } from "#/components/ui/button.tsx";
+import { LANGUAGES } from "#/lib/languages.ts";
+import { listProblems } from "#/server/problems.ts";
 
-function App() {
-  return (
-    <main className="page-wrap px-4 pb-8 pt-14">
-      <section className="island-shell rise-in relative overflow-hidden rounded-[2rem] px-6 py-10 sm:px-10 sm:py-14">
-        <div className="pointer-events-none absolute -left-20 -top-24 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(79,184,178,0.32),transparent_66%)]" />
-        <div className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(47,106,74,0.18),transparent_66%)]" />
-        <p className="island-kicker mb-3">TanStack Start Base Template</p>
-        <h1 className="display-title mb-5 max-w-3xl text-4xl leading-[1.02] font-bold tracking-tight text-[var(--sea-ink)] sm:text-6xl">
-          Start simple, ship quickly.
-        </h1>
-        <p className="mb-8 max-w-2xl text-base text-[var(--sea-ink-soft)] sm:text-lg">
-          This base starter intentionally keeps things light: two routes, clean
-          structure, and the essentials you need to build from scratch.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <a
-            href="/about"
-            className="rounded-full border border-[rgba(50,143,151,0.3)] bg-[rgba(79,184,178,0.14)] px-5 py-2.5 text-sm font-semibold text-[var(--lagoon-deep)] no-underline transition hover:-translate-y-0.5 hover:bg-[rgba(79,184,178,0.24)]"
-          >
-            About This Starter
-          </a>
-          <a
-            href="https://tanstack.com/router"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-[rgba(23,58,64,0.2)] bg-white/50 px-5 py-2.5 text-sm font-semibold text-[var(--sea-ink)] no-underline transition hover:-translate-y-0.5 hover:border-[rgba(23,58,64,0.35)]"
-          >
-            Router Guide
-          </a>
-        </div>
-      </section>
+export const Route = createFileRoute("/")({
+	loader: () => listProblems(),
+	component: ProblemIndex,
+});
 
-      <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {[
-          [
-            'Type-Safe Routing',
-            'Routes and links stay in sync across every page.',
-          ],
-          [
-            'Server Functions',
-            'Call server code from your UI without creating API boilerplate.',
-          ],
-          [
-            'Streaming by Default',
-            'Ship progressively rendered responses for faster experiences.',
-          ],
-          [
-            'Tailwind Native',
-            'Design quickly with utility-first styling and reusable tokens.',
-          ],
-        ].map(([title, desc], index) => (
-          <article
-            key={title}
-            className="island-shell feature-card rise-in rounded-2xl p-5"
-            style={{ animationDelay: `${index * 90 + 80}ms` }}
-          >
-            <h2 className="mb-2 text-base font-semibold text-[var(--sea-ink)]">
-              {title}
-            </h2>
-            <p className="m-0 text-sm text-[var(--sea-ink-soft)]">{desc}</p>
-          </article>
-        ))}
-      </section>
+function formatDate(value: Date | string) {
+	const d = new Date(value);
+	return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
+}
 
-      <section className="island-shell mt-8 rounded-2xl p-6">
-        <p className="island-kicker mb-2">Quick Start</p>
-        <ul className="m-0 list-disc space-y-2 pl-5 text-sm text-[var(--sea-ink-soft)]">
-          <li>
-            Edit <code>src/routes/index.tsx</code> to customize the home page.
-          </li>
-          <li>
-            Update <code>src/components/Header.tsx</code> and{' '}
-            <code>src/components/Footer.tsx</code> for brand links.
-          </li>
-          <li>
-            Add routes in <code>src/routes</code> and tweak visual tokens in{' '}
-            <code>src/styles.css</code>.
-          </li>
-        </ul>
-      </section>
-    </main>
-  )
+function ProblemIndex() {
+	const problems = Route.useLoaderData();
+	const latest = problems.reduce<Date | null>((acc, p) => {
+		const d = new Date(p.updatedAt);
+		return acc === null || d > acc ? d : acc;
+	}, null);
+
+	return (
+		<main className="mx-auto w-[min(880px,calc(100%-2.5rem))] pt-16 pb-20">
+			<header className="rise-in">
+				<div className="flex items-center justify-between gap-4">
+					<p className="font-mono text-[11px] font-medium tracking-[0.28em] text-pine uppercase">
+						Solution Ledger · 参考答案台账
+					</p>
+					<Link to="/dashboard">
+						<Button variant="outline" size="sm">
+							管理题库
+							<ArrowUpRight />
+						</Button>
+					</Link>
+				</div>
+				<h1 className="font-display mt-5 text-[clamp(2.6rem,6vw,3.6rem)] leading-none font-bold tracking-tight text-ink">
+					题簿<span className="text-pine">·</span>CODEBOOK
+				</h1>
+				<p className="mt-6 font-mono text-ink-faint text-xs">
+					收录 {problems.length} 题 ·{" "}
+					{LANGUAGES.map((l) => l.short).join(" / ")}
+					{latest ? ` · 最近更新 ${formatDate(latest)}` : ""}
+				</p>
+			</header>
+
+			<section className="mt-10">
+				{problems.length === 0 ? (
+					<div className="rise-in flex flex-col items-center gap-4 rounded-2xl border border-dashed border-line-strong bg-paper-raised px-8 py-16 text-center">
+						<BookOpenText className="size-8 text-ink-faint" />
+						<p className="text-sm text-ink-soft">
+							题库还是空的。去管理台创建第一道题。
+						</p>
+						<Link to="/dashboard">
+							<Button size="sm">新建题目</Button>
+						</Link>
+					</div>
+				) : (
+					<ol className="overflow-hidden rounded-2xl border border-line bg-paper-raised shadow-[0_1px_0_rgba(255,255,255,0.9)_inset,0_10px_30px_rgba(33,36,43,0.05)]">
+						{problems.map((p, i) => (
+							<li
+								key={p.id}
+								className="rise-in border-b border-line last:border-b-0"
+								style={{ animationDelay: `${90 + i * 55}ms` }}
+							>
+								<Link
+									to="/problems/$problemId"
+									params={{ problemId: String(p.id) }}
+									className="group flex items-center gap-4 px-6 py-5 transition-colors hover:bg-pine-wash/40"
+								>
+									<span className="w-12 shrink-0 font-mono text-sm text-ink-faint">
+										#{String(p.id).padStart(3, "0")}
+									</span>
+									<span className="font-display min-w-0 flex-1 truncate text-lg font-semibold tracking-tight text-ink transition-colors group-hover:text-pine-deep">
+										{p.title}
+									</span>
+									<DifficultyBadge
+										difficulty={p.difficulty}
+										className="shrink-0"
+									/>
+									<span className="hidden shrink-0 gap-2 font-mono text-[11px] text-ink-faint sm:flex">
+										{p.solutions.map((s) => {
+											const lang = LANGUAGES.find((l) => l.id === s.language);
+											return (
+												<span
+													key={s.language}
+													className="rounded-md border border-line px-1.5 py-0.5"
+												>
+													{lang?.short ?? s.language}
+													<span className="text-pine"> v{s.version}</span>
+												</span>
+											);
+										})}
+									</span>
+									<span className="hidden w-20 shrink-0 text-right font-mono text-[11px] text-ink-faint md:block">
+										{formatDate(p.updatedAt)}
+									</span>
+									<ArrowRight className="size-4 shrink-0 text-ink-faint transition-transform group-hover:translate-x-1 group-hover:text-pine" />
+								</Link>
+							</li>
+						))}
+					</ol>
+				)}
+			</section>
+		</main>
+	);
 }

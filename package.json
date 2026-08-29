@@ -47,6 +47,7 @@
     "clsx": "^2.1.1",
     "dotenv-cli": "^11.0.0",
     "lucide-react": "^0.577.0",
+    "monaco-editor": "^0.56.0",
     "prisma": "^7.10.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

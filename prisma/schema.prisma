@@ -7,8 +7,44 @@ datasource db {
   provider = "sqlite"
 }
 
-model Todo {
-  id        Int      @id @default(autoincrement())
-  title     String
-  createdAt DateTime @default(now())
+model Problem {
+  id          Int        @id @default(autoincrement())
+  title       String
+  difficulty  String     @default("Easy")
+  description String
+  examples    Example[]
+  solutions   Solution[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Example {
+  id        Int     @id @default(autoincrement())
+  problemId Int
+  problem   Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  input     String
+  output    String
+  order     Int     @default(0)
+}
+
+model Solution {
+  id        Int                @id @default(autoincrement())
+  problemId Int
+  problem   Problem            @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  language  String
+  code      String
+  version   Int                @default(1)
+  updatedAt DateTime           @updatedAt
+  revisions SolutionRevision[]
+
+  @@unique([problemId, language])
+}
+
+model SolutionRevision {
+  id         Int      @id @default(autoincrement())
+  solutionId Int
+  solution   Solution @relation(fields: [solutionId], references: [id], onDelete: Cascade)
+  code       String
+  version    Int
+  createdAt  DateTime @default(now())
 }
