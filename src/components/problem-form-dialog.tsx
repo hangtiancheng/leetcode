@@ -149,10 +149,10 @@ export function ProblemFormDialog({
 											key={d.id}
 											className={cn(
 												"cursor-pointer rounded-full border px-3.5 py-1 font-medium text-sm transition-colors",
-												"has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-pine",
+												"has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-pine",
 												selected
 													? DIFFICULTY_SELECTED[d.id]
-													: "border-line-strong text-ink-soft hover:bg-ink/[0.04]",
+													: "border-line-strong text-ink-soft hover:bg-ink/4",
 											)}
 										>
 											<input

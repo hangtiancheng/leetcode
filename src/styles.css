@@ -52,7 +52,7 @@
     "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
   --font-display:
     "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Swifty", Menlo, "Cascadia Code", ui-monospace, monospace;
+  --font-mono: "Geist Mono", "Maple Mono", Menlo, "Cascadia Code", ui-monospace, monospace;
 
   --color-paper: var(--paper);
   --color-paper-raised: var(--paper-raised);

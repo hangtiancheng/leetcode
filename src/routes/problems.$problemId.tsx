@@ -17,13 +17,13 @@ import {
 	AlertDialogTitle,
 } from "#/components/ui/alert-dialog.tsx";
 import { Button } from "#/components/ui/button.tsx";
-import { LANGUAGES, type LanguageId } from "#/lib/languages.ts";
-import { cn } from "#/lib/utils.ts";
 import {
 	getProblem,
 	rollbackSolution,
 	saveSolution,
-} from "#/server/problems.ts";
+} from "#/data/problems.ts";
+import { LANGUAGES, type LanguageId } from "#/lib/languages.ts";
+import { cn } from "#/lib/utils.ts";
 
 export const Route = createFileRoute("/problems/$problemId")({
 	loader: async ({ params }) => {
@@ -214,19 +214,19 @@ function ProblemPage() {
 								key={example.id}
 								className="overflow-hidden rounded-xl border border-line bg-paper-raised"
 							>
-								<header className="border-b border-line bg-ink/[0.03] px-4 py-2 font-mono text-xs font-medium text-ink-soft">
+								<header className="border-b border-line bg-ink/3 px-4 py-2 font-mono text-xs font-medium text-ink-soft">
 									Example {i + 1}
 								</header>
 								<div className="space-y-3 p-4">
 									<div>
 										<p className="text-xs font-medium text-ink-faint">Input</p>
-										<pre className="mt-1.5 rounded-lg bg-ink/[0.04] px-3 py-2 font-mono text-[13px] leading-6 whitespace-pre-wrap text-ink">
+										<pre className="mt-1.5 rounded-lg bg-ink/4 px-3 py-2 font-mono text-[13px] leading-6 whitespace-pre-wrap text-ink">
 											{example.input}
 										</pre>
 									</div>
 									<div>
 										<p className="text-xs font-medium text-ink-faint">Output</p>
-										<pre className="mt-1.5 rounded-lg bg-ink/[0.04] px-3 py-2 font-mono text-[13px] leading-6 whitespace-pre-wrap text-ink">
+										<pre className="mt-1.5 rounded-lg bg-ink/4 px-3 py-2 font-mono text-[13px] leading-6 whitespace-pre-wrap text-ink">
 											{example.output}
 										</pre>
 									</div>

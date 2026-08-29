@@ -3,8 +3,8 @@ import { ArrowRight, ArrowUpRight, BookOpenText } from "lucide-react";
 
 import { DifficultyBadge } from "#/components/difficulty-badge.tsx";
 import { Button } from "#/components/ui/button.tsx";
+import { listProblems } from "#/data/problems.ts";
 import { LANGUAGES } from "#/lib/languages.ts";
-import { listProblems } from "#/server/problems.ts";
 
 export const Route = createFileRoute("/")({
 	loader: () => listProblems(),

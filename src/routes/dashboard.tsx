@@ -15,14 +15,14 @@ import {
 	AlertDialogTitle,
 } from "#/components/ui/alert-dialog.tsx";
 import { Button } from "#/components/ui/button.tsx";
-import { type Difficulty, LANGUAGES } from "#/lib/languages.ts";
 import {
 	createProblem,
 	deleteProblem,
 	listProblems,
 	type ProblemListItem,
 	updateProblem,
-} from "#/server/problems.ts";
+} from "#/data/problems.ts";
+import { type Difficulty, LANGUAGES } from "#/lib/languages.ts";
 
 export const Route = createFileRoute("/dashboard")({
 	loader: () => listProblems(),

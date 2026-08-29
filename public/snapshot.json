@@ -1,0 +1,124 @@
+{
+	"version": "8cc735197648943f",
+	"problems": [
+		{
+			"id": 7,
+			"title": "检查是否是类的对象实例",
+			"difficulty": "Medium",
+			"description": "请你编写一个函数，检查给定的值是否是给定类或超类的实例。\n可以传递给函数的数据类型没有限制。例如，值或类可能是  undefined 。",
+			"createdAt": "2026-08-29T06:23:38.085+00:00",
+			"updatedAt": "2026-08-29T06:23:38.085+00:00"
+		},
+		{
+			"id": 8,
+			"title": "有时间限制的缓存",
+			"difficulty": "Medium",
+			"description": "编写一个类，它允许获取和设置键-值对，并且每个键都有一个 过期时间 。\n\n该类有三个公共方法：\n\nset(key, value, duration) ：接收参数为整型键 key 、整型值 value 和以毫秒为单位的持续时间 duration 。一旦 duration 到期后，这个键就无法访问。如果相同的未过期键已经存在，该方法将返回 true ，否则返回 false 。如果该键已经存在，则它的值和持续时间都应该被覆盖。\n\nget(key) ：如果存在一个未过期的键，它应该返回这个键相关的值。否则返回 -1 。\n\ncount() ：返回未过期键的总数。",
+			"createdAt": "2026-08-29T06:29:51.691+00:00",
+			"updatedAt": "2026-08-29T06:29:51.691+00:00"
+		}
+	],
+	"examples": [
+		{
+			"id": 21,
+			"problemId": 7,
+			"input": "func = () => checkIfInstance(new Date(), Date)",
+			"output": "true",
+			"order": 0
+		},
+		{
+			"id": 22,
+			"problemId": 7,
+			"input": "func = () => { class Animal {}; class Dog extends Animal {}; return checkIfInstance(new Dog(), Animal); }",
+			"output": "true",
+			"order": 1
+		},
+		{
+			"id": 23,
+			"problemId": 7,
+			"input": "func = () => checkIfInstance(Date, Date)",
+			"output": "false",
+			"order": 2
+		},
+		{
+			"id": 24,
+			"problemId": 7,
+			"input": "func = () => checkIfInstance(5, Number)",
+			"output": "true",
+			"order": 3
+		},
+		{
+			"id": 25,
+			"problemId": 8,
+			"input": "actions = [\"TimeLimitedCache\", \"set\", \"get\", \"count\", \"get\"]\nvalues = [[], [1, 42, 100], [1], [], [1]]\ntimeDelays = [0, 0, 50, 50, 150]",
+			"output": "[null, false, 42, 1, -1]",
+			"order": 0
+		},
+		{
+			"id": 26,
+			"problemId": 8,
+			"input": "actions = [\"TimeLimitedCache\", \"set\", \"set\", \"get\", \"get\", \"get\", \"count\"]\nvalues = [[], [1, 42, 50], [1, 50, 100], [1], [1], [1], []]\ntimeDelays = [0, 0, 40, 50, 120, 200, 250]",
+			"output": "[null, false, true, 50, 50, -1]",
+			"order": 1
+		}
+	],
+	"solutions": [
+		{
+			"id": 19,
+			"problemId": 7,
+			"language": "typescript",
+			"code": "function solve(): void {\n  // TODO: add reference solution\n}\n",
+			"version": 1,
+			"updatedAt": "2026-08-29T06:23:38.085+00:00"
+		},
+		{
+			"id": 20,
+			"problemId": 7,
+			"language": "javascript",
+			"code": "/**\n * @param {*} obj\n * @param {*} classFunction\n * @return {boolean}\n */\nvar checkIfInstanceOf = function (obj, classFunction) {\n  if (obj === null || obj === undefined || classFunction === null || classFunction === undefined) {\n    return false;\n  }\n\n  const proto = Object.getPrototypeOf(obj);\n  if (proto === null) {\n    return false;\n  }\n  if (proto === classFunction.prototype) {\n    return true;\n  }\n\n  return checkIfInstanceOf(proto, classFunction);\n};\n",
+			"version": 2,
+			"updatedAt": "2026-08-29T06:24:04.646+00:00"
+		},
+		{
+			"id": 21,
+			"problemId": 7,
+			"language": "go",
+			"code": "func solve() {\n\t// TODO: add reference solution\n}\n",
+			"version": 1,
+			"updatedAt": "2026-08-29T06:23:38.085+00:00"
+		},
+		{
+			"id": 22,
+			"problemId": 8,
+			"language": "typescript",
+			"code": "function solve(): void {\n  // TODO: add reference solution\n}\n",
+			"version": 1,
+			"updatedAt": "2026-08-29T06:29:51.691+00:00"
+		},
+		{
+			"id": 23,
+			"problemId": 8,
+			"language": "javascript",
+			"code": "function solve() {\n  // TODO: add reference solution\n}\n",
+			"version": 1,
+			"updatedAt": "2026-08-29T06:29:51.691+00:00"
+		},
+		{
+			"id": 24,
+			"problemId": 8,
+			"language": "go",
+			"code": "func solve() {\n\t// TODO: add reference solution\n}\n",
+			"version": 1,
+			"updatedAt": "2026-08-29T06:29:51.691+00:00"
+		}
+	],
+	"revisions": [
+		{
+			"id": 6,
+			"solutionId": 20,
+			"code": "function solve() {\n  // TODO: add reference solution\n}\n",
+			"version": 1,
+			"createdAt": "2026-08-29T06:24:04.645+00:00"
+		}
+	]
+}

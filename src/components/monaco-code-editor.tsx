@@ -92,7 +92,7 @@ export default function MonacoCodeEditor({
 				document.fonts.ready.then(() => monaco.editor.remeasureFonts());
 			}}
 			options={{
-				fontFamily: "'Swifty', Menlo, 'Cascadia Code', monospace",
+				fontFamily: "'Gesit Mono', 'Maple Mono', Menlo, 'Cascadia Code', ui-monospace, monospace",
 				fontSize: 13,
 				lineHeight: 21,
 				fontLigatures: false,

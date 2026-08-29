@@ -11,6 +11,5 @@
 __unconfig*
 dist
 dist-ssr
-leetcode
 node_modules
 todos.json

@@ -21,7 +21,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: "CODEBOOK · Algorithm Solution Ledger",
+				title: "CODEBOOK · LeetCode Problems",
 			},
 		],
 		links: [
@@ -36,7 +36,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			<head>
 				<HeadContent />
 			</head>
