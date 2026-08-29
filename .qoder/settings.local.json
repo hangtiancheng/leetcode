@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(find /Users/hangtiancheng/github/leetcode/src /Users/hangtiancheng/github/leetcode/prisma -type f | head -80)"
-    ]
-  }
-}
