@@ -152,7 +152,7 @@ export function ProblemFormDialog({
 												"has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ctp-mauve",
 												selected
 													? DIFFICULTY_SELECTED[d.id]
-													: "border-line-strong text-fg-soft hover:bg-fg/[0.05]",
+													: "border-line-strong text-fg-soft hover:bg-fg/5",
 											)}
 										>
 											<input

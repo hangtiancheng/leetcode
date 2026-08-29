@@ -138,7 +138,7 @@ function Dashboard() {
 									{problems.map((p) => (
 										<tr
 											key={p.id}
-											className="border-b border-line transition-colors last:border-b-0 hover:bg-fg/[0.03]"
+											className="border-b border-line transition-colors last:border-b-0 hover:bg-fg/3"
 										>
 											<td className="px-5 py-3 font-mono text-xs text-fg-faint">
 												{String(p.id).padStart(3, "0")}

@@ -71,6 +71,32 @@ function ProblemPage() {
 	const [busy, setBusy] = React.useState(false);
 	const [actionError, setActionError] = React.useState<string | null>(null);
 	const [stamp, setStamp] = React.useState<Stamp_ | null>(null);
+	const [split, setSplit] = React.useState(0.47);
+	const [dragging, setDragging] = React.useState(false);
+	const splitRef = React.useRef<HTMLDivElement>(null);
+
+	const startSplitDrag = (e: React.PointerEvent) => {
+		e.preventDefault();
+		const container = splitRef.current;
+		if (!container) return;
+		const rect = container.getBoundingClientRect();
+		const onMove = (ev: PointerEvent) => {
+			const next = (ev.clientX - rect.left) / rect.width;
+			setSplit(Math.min(0.7, Math.max(0.3, next)));
+		};
+		const onUp = () => {
+			window.removeEventListener("pointermove", onMove);
+			window.removeEventListener("pointerup", onUp);
+			document.body.style.cursor = "";
+			document.body.style.userSelect = "";
+			setDragging(false);
+		};
+		document.body.style.cursor = "col-resize";
+		document.body.style.userSelect = "none";
+		window.addEventListener("pointermove", onMove);
+		window.addEventListener("pointerup", onUp);
+		setDragging(true);
+	};
 
 	const solutionOf = (lang: LanguageId) =>
 		problem.solutions.find((s) => s.language === lang);
@@ -190,7 +216,13 @@ function ProblemPage() {
 				</Link>
 			</header>
 
-			<div className="flex flex-1 flex-col lg:grid lg:min-h-0 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
+			<div
+				ref={splitRef}
+				className="flex flex-1 flex-col lg:grid lg:min-h-0"
+				style={{
+					gridTemplateColumns: `minmax(0, ${split}fr) 5px minmax(0, ${1 - split}fr)`,
+				}}
+			>
 				{/* Problem statement */}
 				<article className="scroll-quiet bg-bg-panel px-6 py-7 sm:px-9 lg:min-h-0 lg:overflow-y-auto">
 					<h1 className="font-display text-[26px] font-bold tracking-tight text-fg">
@@ -270,8 +302,26 @@ function ProblemPage() {
 					</Button>
 				</div>
 
+				{/* Split handle (desktop) */}
+				<div
+					role="separator"
+					aria-orientation="vertical"
+					onPointerDown={startSplitDrag}
+					className={cn(
+						"group relative hidden w-[5px] cursor-col-resize lg:block",
+						dragging ? "bg-ctp-mauve/20" : "hover:bg-ctp-mauve/10",
+					)}
+				>
+					<span
+						className={cn(
+							"absolute inset-y-0 left-1/2 w-px -translate-x-1/2 transition-colors",
+							dragging ? "bg-ctp-mauve" : "bg-line group-hover:bg-ctp-mauve",
+						)}
+					/>
+				</div>
+
 				{/* Solution editor */}
-				<section className="flex h-[70dvh] flex-col bg-bg-raised lg:h-auto lg:min-h-0 lg:border-l lg:border-line">
+				<section className="flex h-[70dvh] flex-col bg-bg-raised lg:h-auto lg:min-h-0">
 					<div className="flex h-11 shrink-0 items-stretch justify-between border-b border-line bg-bg-panel pr-2.5 pl-1">
 						<div className="flex items-stretch" role="tablist">
 							{LANGUAGES.map((lang) => {
@@ -336,7 +386,12 @@ function ProblemPage() {
 						</div>
 					</div>
 
-					<div className="relative min-h-0 flex-1">
+					<div
+						className={cn(
+							"relative min-h-0 flex-1",
+							dragging && "pointer-events-none",
+						)}
+					>
 						<CodeEditor
 							problemId={problem.id}
 							language={activeLang}

@@ -69,10 +69,7 @@ function ProblemIndex() {
 					{problems.length === 0 ? (
 						<div className="animate-rise-in flex flex-col items-center gap-4 rounded-xl border border-dashed border-line-strong bg-bg-panel px-8 py-14 text-center">
 							<BookOpenText className="size-8 text-fg-faint" />
-							<p className="text-sm text-fg-soft">
-								The library is empty. Head to the dashboard to add the first
-								problem.
-							</p>
+							<p className="text-sm text-fg-soft">Playground is empty.</p>
 							<Link to="/dashboard">
 								<Button size="sm">New problem</Button>
 							</Link>
@@ -99,7 +96,7 @@ function ProblemIndex() {
 										<Link
 											to="/problems/$problemId"
 											params={{ problemId: String(p.id) }}
-											className="group flex items-center gap-4 px-5 py-3.5 transition-colors hover:bg-fg/[0.04]"
+											className="group flex items-center gap-4 px-5 py-3.5 transition-colors hover:bg-fg/4"
 										>
 											<span className="w-12 shrink-0 font-mono text-xs text-fg-faint">
 												#{String(p.id).padStart(3, "0")}
