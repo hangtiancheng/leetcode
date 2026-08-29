@@ -1,4 +1,4 @@
-# CODEBOOK
+# Playground
 
 A LeetCode-style personal algorithm notebook: the problem statement and examples on the left, a Monaco editor on the right maintaining reference solutions in TS / JS / Go. Edits are not persisted automatically — saving requires dialog confirmation (version incremented, previous revision archived) and can be rolled back to the prior version at any time. The dashboard supports full CRUD over problems.
 
@@ -23,23 +23,23 @@ docker compose up -d --build
 ```
 
 - Open `http://localhost:3000`
-- The database persists in the named volume `codebook-data` (`/data/codebook.db` inside the container)
+- The database persists in the named volume `playground-data` (`/data/playground.db` inside the container)
 - On startup the entrypoint runs `prisma db push` to sync the schema before starting the server
 
 Docker without Compose:
 
 ```bash
-docker build -t codebook .
-docker run -d -p 3000:3000 -v codebook-data:/data --name codebook codebook
+docker build -t playground .
+docker run -d -p 3000:3000 -v playground-data:/data --name playground playground
 ```
 
 ### Environment variables
 
-| Variable | Default | Description |
-| --- | --- | --- |
-| `DATABASE_URL` | `file:/data/codebook.db` | SQLite file path |
-| `PORT` / `HOST` | `3000` / `0.0.0.0` | Server listen address |
-| `VITE_SENTRY_DSN` | empty | When unset, Sentry only warns locally and never reports |
+| Variable          | Default                    | Description                                             |
+| ----------------- | -------------------------- | ------------------------------------------------------- |
+| `DATABASE_URL`    | `file:/data/playground.db` | SQLite file path                                        |
+| `PORT` / `HOST`   | `3000` / `0.0.0.0`         | Server listen address                                   |
+| `VITE_SENTRY_DSN` | empty                      | When unset, Sentry only warns locally and never reports |
 
 ### Notes
 

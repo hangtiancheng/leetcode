@@ -26,7 +26,7 @@ interface MetaRow {
 	value: string;
 }
 
-class CodebookDb extends Dexie {
+class PlaygroundDb extends Dexie {
 	problems!: EntityTable<ProblemRow, "id">;
 	examples!: EntityTable<ExampleRow, "id">;
 	solutions!: EntityTable<SolutionRow, "id">;
@@ -34,7 +34,7 @@ class CodebookDb extends Dexie {
 	meta!: EntityTable<MetaRow, "key">;
 
 	constructor() {
-		super("codebook");
+		super("playground");
 		this.version(1).stores({
 			problems: "++id",
 			examples: "++id, problemId",
@@ -45,12 +45,12 @@ class CodebookDb extends Dexie {
 	}
 }
 
-let instance: CodebookDb | undefined;
+let instance: PlaygroundDb | undefined;
 
 // Constructed lazily so importing this module stays harmless where there is no
 // IndexedDB, such as the Node process that prerenders the SPA shell.
 function getDb() {
-	instance ??= new CodebookDb();
+	instance ??= new PlaygroundDb();
 	return instance;
 }
 
@@ -75,7 +75,10 @@ async function fetchSnapshot(): Promise<SnapshotJson | null> {
 		if (!res.ok) throw new Error(`HTTP ${res.status}`);
 		return (await res.json()) as SnapshotJson;
 	} catch (error) {
-		console.warn("[codebook] snapshot unavailable, keeping local data", error);
+		console.warn(
+			"[playground] snapshot unavailable, keeping local data",
+			error,
+		);
 		return null;
 	}
 }

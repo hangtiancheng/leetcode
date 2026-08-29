@@ -1,4 +1,4 @@
-name: Deploy https://hangtiancheng.github.io/leetcode codebook
+name: Deploy https://hangtiancheng.github.io/leetcode playground
 
 on:
   push:

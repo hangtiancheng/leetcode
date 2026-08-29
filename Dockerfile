@@ -26,7 +26,7 @@ WORKDIR /app
 ENV NODE_ENV=production \
     HOST=0.0.0.0 \
     PORT=3000 \
-    DATABASE_URL="file:/data/codebook.db"
+    DATABASE_URL="file:/data/playground.db"
 
 # prisma schema-engine needs openssl at runtime
 RUN apt-get update \

@@ -30,7 +30,7 @@ export const Route = createFileRoute("/problems/$problemId")({
 		return problem;
 	},
 	head: ({ loaderData }) => ({
-		meta: [{ title: `${loaderData?.title ?? "Problem"} · CODEBOOK` }],
+		meta: [{ title: `${loaderData?.title ?? "Playground"}` }],
 	}),
 	notFoundComponent: ProblemNotFound,
 	component: ProblemPage,
@@ -168,7 +168,7 @@ function ProblemPage() {
 						className="font-display flex items-center gap-2 text-sm font-semibold tracking-tight text-ink transition-colors hover:text-pine-deep"
 					>
 						<ArrowLeft className="size-4" />
-						Codebook
+						Playground
 					</Link>
 					<span className="h-4 w-px bg-line-strong" />
 					<span className="font-mono text-xs text-ink-faint">

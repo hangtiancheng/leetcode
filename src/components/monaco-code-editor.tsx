@@ -15,7 +15,7 @@ self.MonacoEnvironment = {
 
 loader.config({ monaco });
 
-monaco.editor.defineTheme("codebook", {
+monaco.editor.defineTheme("playground", {
 	base: "vs",
 	inherit: true,
 	rules: [
@@ -78,7 +78,7 @@ export default function MonacoCodeEditor({
 }: MonacoCodeEditorProps) {
 	return (
 		<Editor
-			theme="codebook"
+			theme="playground"
 			path={`problem-${problemId}.${FILE_EXT[language]}`}
 			language={MONACO_LANGUAGE[language]}
 			value={value}

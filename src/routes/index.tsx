@@ -38,7 +38,7 @@ function ProblemIndex() {
 					</Link>
 				</div>
 				<h1 className="font-display mt-5 text-[clamp(2.6rem,6vw,3.6rem)] leading-none font-bold tracking-tight text-ink">
-					CODEBOOK
+					Playground
 				</h1>
 				<p className="mt-6 font-mono text-ink-faint text-xs">
 					{problems.length} problems ·{" "}

@@ -1,15 +1,15 @@
 services:
-  codebook:
+  playground:
     build: .
-    image: codebook:latest
-    container_name: codebook
+    image: playground:latest
+    container_name: playground
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: "file:/data/codebook.db"
+      DATABASE_URL: "file:/data/playground.db"
       # VITE_SENTRY_DSN: ""
     volumes:
-      - codebook-data:/data
+      - playground-data:/data
     restart: unless-stopped
     healthcheck:
       test:
@@ -25,4 +25,4 @@ services:
       start_period: 15s
 
 volumes:
-  codebook-data:
+  playground-data:

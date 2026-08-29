@@ -26,7 +26,7 @@ import { type Difficulty, LANGUAGES } from "#/lib/languages.ts";
 
 export const Route = createFileRoute("/dashboard")({
 	loader: () => listProblems(),
-	head: () => ({ meta: [{ title: "Dashboard · CODEBOOK" }] }),
+	head: () => ({ meta: [{ title: "Playground Dashboard" }] }),
 	component: Dashboard,
 });
 

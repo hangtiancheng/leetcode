@@ -21,7 +21,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: "CODEBOOK · LeetCode Problems",
+				title: "Playground",
 			},
 		],
 		links: [
