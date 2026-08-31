@@ -14,7 +14,7 @@
 			"**/vite.config.ts",
 			"!**/.output",
 			"!**/.vscode/**/*",
-			"!**/public",
+			"!**/public/**/*",
 			"!**/src/generated",
 			"!**/src/routeTree.gen.ts"
 		]
