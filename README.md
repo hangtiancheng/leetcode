@@ -39,7 +39,7 @@ docker run -d -p 3000:3000 -v playground-data:/data --name playground playground
 | ----------------- | -------------------------- | ------------------------------------------------------- |
 | `DATABASE_URL`    | `file:/data/playground.db` | SQLite file path                                        |
 | `PORT` / `HOST`   | `3000` / `0.0.0.0`         | Server listen address                                   |
-| `VITE_SENTRY_DSN` | empty                      | When unset, Sentry only warns locally and never reports |
+| `VITE_SWIFTY_SENTRY_DSN` | empty                      | Browser monitoring report endpoint; monitoring is disabled when unset |
 
 ### Notes
 

@@ -1,7 +1,8 @@
 @import "tailwindcss";
-@plugin '@tailwindcss/typography';
-
 @import "tw-animate-css";
+@import "@catppuccin/tailwindcss/mocha.css";
+
+@plugin "@tailwindcss/typography";
 
 /*
  Catppuccin: latte (light) is applied at :root, mocha (dark) under the
@@ -9,8 +10,6 @@
  Light / Dark / System toggle can override the OS preference.
 */
 @custom-variant dark (&:where(.dark, .dark *));
-
-@import "@catppuccin/tailwindcss/mocha.css";
 
 :root {
 	color-scheme: light;
@@ -98,7 +97,11 @@
 	--bg-raised: var(--catppuccin-color-base);
 	--bg-well: rgba(205, 214, 244, 0.06);
 
-	--line: color-mix(in oklab, var(--catppuccin-color-surface0) 72%, transparent);
+	--line: color-mix(
+		in oklab,
+		var(--catppuccin-color-surface0) 72%,
+		transparent
+	);
 	--line-strong: var(--catppuccin-color-surface0);
 
 	--primary-foreground: var(--catppuccin-color-crust);
@@ -110,7 +113,8 @@
 		"PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
 	--font-display:
 		"PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
-	--font-mono: "Geist Mono", "Maple Mono", Menlo, "Cascadia Code", ui-monospace, monospace;
+	--font-mono:
+		"Geist Mono", "Maple Mono", Menlo, "Cascadia Code", ui-monospace, monospace;
 
 	--color-bg-app: var(--bg-app);
 	--color-bg-panel: var(--bg-panel);

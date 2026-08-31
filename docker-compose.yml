@@ -7,7 +7,7 @@ services:
       - "3000:3000"
     environment:
       DATABASE_URL: "file:/data/playground.db"
-      # VITE_SENTRY_DSN: ""
+      # VITE_SWIFTY_SENTRY_DSN: ""
     volumes:
       - playground-data:/data
     restart: unless-stopped

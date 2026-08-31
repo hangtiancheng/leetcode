@@ -1,5 +1,9 @@
 <!-- intent-skills:start -->
-# TanStack Intent - before editing files, run the matching guidance command.
+# Swifty&TanStack Intent - before editing files, run the matching guidance command.
+swiftyIntent:
+  - id: "@swifty.js/sentry#swifty-sentry"
+    run: "npx @tanstack/intent@latest load @swifty.js/sentry#swifty-sentry"
+    for: "Integration guide for @swifty.js/sentry, a browser monitoring and analytics SDK. Use this skill whenever the user mentions @swifty.js/sentry, swifty-sentry, frontend monitoring, frontend error tracking, browser performance monitoring, declarative click tracking, exposure tracking, white-screen detection, screen recording, Web Vitals, PV/dwell-time, offline report caching, or any task involving integrating browser observability into a React, Vue, or vanilla TypeScript/JavaScript project. Also trigger when the user asks about swifty-sentry-* attributes, ReactErrorBoundary from this SDK, vuePlugin, the Vite dev-server mock plugin (sentryPlugin / sentryPlugin7), the webpack dev-server mock plugin (SentryWebpackPlugin / sentryMiddleware), or dev-time source map resolution of reported errors. Even if the user simply says "add monitoring" or "add tracking" in a frontend context, consult this skill first."
 tanstackIntent:
   - id: "@tanstack/db#db-core"
     run: "npx @tanstack/intent@latest load @tanstack/db#db-core"

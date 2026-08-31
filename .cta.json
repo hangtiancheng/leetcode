@@ -19,7 +19,6 @@
   "framework": "react",
   "chosenAddOns": [
     "biome",
-    "sentry",
     "prisma",
     "store",
     "t3env",
