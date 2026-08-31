@@ -4,13 +4,14 @@ import {
 	notFound,
 	useRouter,
 } from "@tanstack/react-router";
-import { ArrowLeft, ArrowUpRight, CloudCheck, Undo2 } from "lucide-react";
+import { ArrowUpRight, CloudCheck, Undo2 } from "lucide-react";
 import * as React from "react";
 
 import { AppHeader } from "#/components/app-header.tsx";
 import { CodeEditor } from "#/components/code-editor.tsx";
 import { DifficultyBadge } from "#/components/difficulty-badge.tsx";
 import { Markdown } from "#/components/markdown.tsx";
+import { NotFound } from "#/components/not-found.tsx";
 import {
 	AlertDialog,
 	AlertDialogContent,
@@ -39,22 +40,7 @@ export const Route = createFileRoute("/problems/$problemId")({
 });
 
 function ProblemNotFound() {
-	return (
-		<main className="flex min-h-dvh flex-col items-center justify-center gap-4">
-			<p className="font-mono text-xs tracking-[0.28em] text-fg-faint uppercase">
-				404 · Not Found
-			</p>
-			<h1 className="font-display text-2xl font-semibold text-fg">
-				Problem not found
-			</h1>
-			<Link to="/">
-				<Button variant="outline" size="sm">
-					<ArrowLeft />
-					Back to library
-				</Button>
-			</Link>
-		</main>
-	);
+	return <NotFound title="Problem not found" />;
 }
 
 type Stamp_ = { text: string; at: number };

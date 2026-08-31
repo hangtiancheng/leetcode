@@ -4,6 +4,7 @@ import {
 	HeadContent,
 	Scripts,
 } from "@tanstack/react-router";
+import { NotFound } from "#/components/not-found.tsx";
 import appCss from "../styles.css?url";
 
 interface MyRouterContext {
@@ -36,12 +37,18 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 		],
 		links: [
 			{
+				rel: "icon",
+				type: "image/svg+xml",
+				href: `${import.meta.env.BASE_URL}favicon.svg`,
+			},
+			{
 				rel: "stylesheet",
 				href: appCss,
 			},
 		],
 	}),
 	shellComponent: RootDocument,
+	notFoundComponent: NotFound,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
