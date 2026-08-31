@@ -13,6 +13,10 @@ const base = staticBuild ? (process.env.STATIC_BASE ?? "/") : "/";
 
 const config = defineConfig({
 	base,
+	ssr: {
+		// These ship .css imports Node can't load when externalized.
+		noExternal: ["@uiw/react-md-editor", "@uiw/react-markdown-preview"],
+	},
 	resolve: {
 		tsconfigPaths: true,
 		// Swapping the seam keeps Prisma and the server functions out of the

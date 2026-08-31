@@ -5,9 +5,11 @@ import { ThemeToggle } from "#/components/theme-toggle.tsx";
 import { cn } from "#/lib/utils.ts";
 
 export function AppHeader({
+	children,
 	right,
 	className,
 }: {
+	children?: React.ReactNode;
 	right?: React.ReactNode;
 	className?: string;
 }) {
@@ -18,14 +20,17 @@ export function AppHeader({
 				className,
 			)}
 		>
-			<Link
-				to="/"
-				className="flex items-center gap-2.5 font-mono text-[13px] font-semibold tracking-tight text-fg"
-			>
-				<span className="size-2.5 rounded-[3px] bg-ctp-mauve" />
-				playground
-			</Link>
-			<div className="flex items-center gap-1.5">
+			<div className="flex min-w-0 items-center gap-3">
+				<Link
+					to="/"
+					className="flex shrink-0 items-center gap-2.5 font-mono text-[13px] font-semibold tracking-tight text-fg transition-colors hover:text-ctp-mauve"
+				>
+					<span className="size-2.5 rounded-[3px] bg-ctp-mauve" />
+					playground
+				</Link>
+				{children}
+			</div>
+			<div className="flex shrink-0 items-center gap-1.5">
 				<ThemeToggle />
 				{right}
 			</div>

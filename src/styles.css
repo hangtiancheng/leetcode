@@ -214,6 +214,120 @@
 	}
 }
 
+/*
+ Markdown prose theme: maps @tailwindcss/typography variables onto the
+ Catppuccin tokens (they already flip with `.dark`, so one block covers
+ both modes). Unlayered on purpose so it wins over the plugin defaults.
+*/
+.prose-playground {
+	font-size: 15px;
+	--tw-prose-body: color-mix(in oklab, var(--fg) 88%, transparent);
+	--tw-prose-headings: var(--fg);
+	--tw-prose-lead: var(--fg-soft);
+	--tw-prose-links: var(--catppuccin-color-mauve);
+	--tw-prose-bold: var(--fg);
+	--tw-prose-counters: var(--fg-faint);
+	--tw-prose-bullets: var(--line-strong);
+	--tw-prose-hr: var(--line);
+	--tw-prose-quotes: var(--fg-soft);
+	--tw-prose-quote-borders: color-mix(
+		in oklab,
+		var(--catppuccin-color-mauve) 45%,
+		transparent
+	);
+	--tw-prose-captions: var(--fg-faint);
+	--tw-prose-kbd: var(--fg);
+	--tw-prose-code: var(--fg);
+	--tw-prose-pre-code: var(--fg);
+	--tw-prose-pre-bg: var(--bg-well);
+	--tw-prose-th-borders: var(--line-strong);
+	--tw-prose-td-borders: var(--line);
+}
+
+/* Markdown headings sit beneath the page's own 26px title. */
+.prose-playground :where(h1) {
+	font-size: 1.35em;
+}
+
+.prose-playground :where(h2) {
+	font-size: 1.2em;
+}
+
+.prose-playground :where(h3) {
+	font-size: 1.05em;
+}
+
+/* Inline code as a quiet chip, no backtick pseudo-elements. */
+.prose-playground :where(code):not(:where(pre code))::before,
+.prose-playground :where(code):not(:where(pre code))::after {
+	content: none;
+}
+
+.prose-playground :where(code):not(:where(pre code)) {
+	background: var(--bg-well);
+	border-radius: 5px;
+	padding: 0.15em 0.4em;
+	font-weight: 500;
+	font-family: var(--font-mono);
+}
+
+/* Code blocks match the example wells on the problem page. */
+.prose-playground :where(pre) {
+	border: 1px solid var(--line);
+	font-family: var(--font-mono);
+}
+
+/*
+ Markdown editor (@uiw/react-md-editor) remapped onto Catppuccin tokens.
+ The extra [data-color-mode] attribute outranks the library's own palette
+ blocks regardless of stylesheet order.
+*/
+.md-editor-shell[data-color-mode] .w-md-editor,
+.md-editor-shell[data-color-mode] .wmde-markdown,
+.md-editor-shell[data-color-mode] .wmde-markdown-var {
+	--color-canvas-default: var(--bg-panel);
+	--color-canvas-subtle: var(--bg-well);
+	--color-fg-default: var(--fg);
+	--color-fg-muted: var(--fg-soft);
+	--color-fg-subtle: var(--fg-faint);
+	--color-border-default: var(--line-strong);
+	--color-border-muted: var(--line);
+	--color-neutral-muted: var(--bg-well);
+	--color-accent-fg: var(--catppuccin-color-mauve);
+}
+
+.md-editor-shell[data-color-mode] .w-md-editor {
+	--md-editor-font-family: var(--font-mono);
+	font-family: var(--font-sans);
+	border-radius: var(--radius-lg);
+}
+
+.md-editor-shell[data-color-mode] .w-md-editor:focus-within {
+	box-shadow:
+		0 0 0 1px var(--catppuccin-color-mauve),
+		0 0 0 4px
+		color-mix(in oklab, var(--catppuccin-color-mauve) 25%, transparent);
+}
+
+.md-editor-shell[data-color-mode] .w-md-editor-toolbar {
+	border-radius: calc(var(--radius-lg) - 1px) calc(var(--radius-lg) - 1px) 0 0;
+}
+
+/* Markdown source at the app's mono 13px scale (both mirror layers). */
+.md-editor-shell[data-color-mode] .w-md-editor-text,
+.md-editor-shell[data-color-mode] .w-md-editor-text-pre > code {
+	font-size: 13px !important;
+	line-height: 20px !important;
+}
+
+.md-editor-shell[data-color-mode] .w-md-editor-text-input::placeholder {
+	color: var(--fg-faint);
+}
+
+.md-editor-shell[data-color-mode] .wmde-markdown {
+	font-size: 14px;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	*,
 	*::before,

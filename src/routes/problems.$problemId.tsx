@@ -4,12 +4,13 @@ import {
 	notFound,
 	useRouter,
 } from "@tanstack/react-router";
-import { ArrowLeft, CloudCheck, Undo2 } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, CloudCheck, Undo2 } from "lucide-react";
 import * as React from "react";
 
+import { AppHeader } from "#/components/app-header.tsx";
 import { CodeEditor } from "#/components/code-editor.tsx";
 import { DifficultyBadge } from "#/components/difficulty-badge.tsx";
-import { ThemeToggle } from "#/components/theme-toggle.tsx";
+import { Markdown } from "#/components/markdown.tsx";
 import {
 	AlertDialog,
 	AlertDialogContent,
@@ -218,29 +219,28 @@ function ProblemPage() {
 
 	return (
 		<div className="flex min-h-dvh flex-col lg:h-dvh">
-			<header className="flex h-12 shrink-0 items-center justify-between gap-3 border-b border-line bg-bg-panel px-4 sm:px-5">
-				<div className="flex min-w-0 items-center gap-3">
-					<Link
-						to="/"
-						className="flex items-center gap-2 font-mono text-[13px] font-semibold tracking-tight text-fg transition-colors hover:text-ctp-mauve"
-					>
-						<ArrowLeft className="size-3.5" />
-						playground
+			<AppHeader
+				right={
+					<Link to="/dashboard">
+						<Button variant="outline" size="sm">
+							Dashboard
+							<ArrowUpRight />
+						</Button>
 					</Link>
-					<span className="h-4 w-px bg-line-strong" />
-					<span className="font-mono text-xs text-fg-faint">
-						#{String(problem.id).padStart(3, "0")}
-					</span>
-					<span className="truncate text-sm font-medium text-fg">
-						{problem.title}
-					</span>
-					<DifficultyBadge
-						difficulty={problem.difficulty}
-						className="hidden shrink-0 sm:inline-flex"
-					/>
-				</div>
-				<ThemeToggle />
-			</header>
+				}
+			>
+				<span className="h-4 w-px shrink-0 bg-line-strong" />
+				<span className="shrink-0 font-mono text-xs text-fg-faint">
+					#{String(problem.id).padStart(3, "0")}
+				</span>
+				<span className="truncate text-sm font-medium text-fg">
+					{problem.title}
+				</span>
+				<DifficultyBadge
+					difficulty={problem.difficulty}
+					className="hidden shrink-0 sm:inline-flex"
+				/>
+			</AppHeader>
 
 			<div
 				ref={splitRef}
@@ -258,9 +258,7 @@ function ProblemPage() {
 						<DifficultyBadge difficulty={problem.difficulty} />
 					</div>
 
-					<p className="mt-5 text-[15px] leading-7 whitespace-pre-line text-fg/85">
-						{problem.description}
-					</p>
+					<Markdown className="mt-5">{problem.description}</Markdown>
 
 					<div className="mt-8 space-y-4">
 						{problem.examples.map((example, i) => (

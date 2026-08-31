@@ -1,5 +1,7 @@
+import MDEditor, { commands } from "@uiw/react-md-editor";
 import { Plus, Trash2 } from "lucide-react";
 import * as React from "react";
+import remarkBreaks from "remark-breaks";
 import { Button } from "#/components/ui/button.tsx";
 import {
 	Dialog,
@@ -12,7 +14,34 @@ import { Input } from "#/components/ui/input.tsx";
 import { Label } from "#/components/ui/label.tsx";
 import { Textarea } from "#/components/ui/textarea.tsx";
 import { DIFFICULTIES, type Difficulty } from "#/lib/languages.ts";
+import { useTheme } from "#/lib/theme.ts";
 import { cn } from "#/lib/utils.ts";
+
+const EDITOR_COMMANDS = [
+	commands.group(
+		[commands.title1, commands.title2, commands.title3, commands.title4],
+		{
+			name: "title",
+			groupName: "title",
+			buttonProps: { "aria-label": "Insert heading" },
+		},
+	),
+	commands.bold,
+	commands.italic,
+	commands.strikethrough,
+	commands.divider,
+	commands.link,
+	commands.quote,
+	commands.code,
+	commands.codeBlock,
+	commands.table,
+	commands.divider,
+	commands.unorderedListCommand,
+	commands.orderedListCommand,
+	commands.checkedListCommand,
+];
+
+const EDITOR_EXTRA_COMMANDS = [commands.codeEdit, commands.codePreview];
 
 export type ProblemFormValue = {
 	title: string;
@@ -52,6 +81,7 @@ export function ProblemFormDialog({
 	const [examples, setExamples] = React.useState<Array<ExampleRow>>([]);
 	const [error, setError] = React.useState<string | null>(null);
 	const [busy, setBusy] = React.useState(false);
+	const { resolved: theme } = useTheme();
 	const isEdit = initial !== undefined;
 
 	React.useEffect(() => {
@@ -128,7 +158,7 @@ export function ProblemFormDialog({
 						<DialogTitle>{isEdit ? "Edit problem" : "New problem"}</DialogTitle>
 					</DialogHeader>
 
-					<div className="scroll-quiet max-h-[62dvh] space-y-5 overflow-y-auto pr-1">
+					<div className="scroll-quiet -m-1 max-h-[62dvh] space-y-5 overflow-y-auto p-1">
 						<div className="space-y-1.5">
 							<Label htmlFor="problem-title">Title</Label>
 							<Input
@@ -172,13 +202,23 @@ export function ProblemFormDialog({
 
 						<div className="space-y-1.5">
 							<Label htmlFor="problem-description">Description</Label>
-							<Textarea
-								id="problem-description"
-								rows={6}
-								value={description}
-								onChange={(e) => setDescription(e.target.value)}
-								placeholder="Problem description."
-							/>
+							<div className="md-editor-shell" data-color-mode={theme}>
+								<MDEditor
+									value={description}
+									onChange={(value) => setDescription(value ?? "")}
+									preview="edit"
+									height={252}
+									visibleDragbar={false}
+									commands={EDITOR_COMMANDS}
+									extraCommands={EDITOR_EXTRA_COMMANDS}
+									previewOptions={{ remarkPlugins: [remarkBreaks] }}
+									textareaProps={{
+										id: "problem-description",
+										placeholder:
+											"Problem statement in Markdown — **bold**, `code`, lists, tables…",
+									}}
+								/>
+							</div>
 						</div>
 
 						<div className="space-y-3">
@@ -225,8 +265,9 @@ export function ProblemFormDialog({
 										<Label htmlFor={`example-output-${example.key}`}>
 											Output
 										</Label>
-										<Input
+										<Textarea
 											id={`example-output-${example.key}`}
+											rows={2}
 											className="font-mono text-[13px]"
 											value={example.output}
 											onChange={(e) =>
