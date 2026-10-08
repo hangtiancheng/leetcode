@@ -1,0 +1,399 @@
+import {
+	createFileRoute,
+	Link,
+	notFound,
+	useRouter,
+} from "@tanstack/react-router";
+import { ArrowUpRight, CloudCheck } from "lucide-react";
+import * as React from "react";
+
+import { AppHeader } from "#/components/app-header.tsx";
+import { CodeEditor } from "#/components/code-editor.tsx";
+import { DifficultyBadge } from "#/components/difficulty-badge.tsx";
+import { Markdown } from "#/components/markdown.tsx";
+import { NotFound } from "#/components/not-found.tsx";
+import {
+	AlertDialog,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogTitle,
+} from "#/components/ui/alert-dialog.tsx";
+import { Button } from "#/components/ui/button.tsx";
+import { getProblem, saveSolution } from "#/data/problems.ts";
+import { LANGUAGES, type LanguageId } from "#/lib/languages.ts";
+import { cn } from "#/lib/utils.ts";
+
+export const Route = createFileRoute("/problems/$problemId")({
+	loader: async ({ params }) => {
+		const id = Number(params.problemId);
+		if (!Number.isInteger(id) || id <= 0) throw notFound();
+		const problem = await getProblem({ data: { id } });
+		if (!problem) throw notFound();
+		return problem;
+	},
+	head: ({ loaderData }) => ({
+		meta: [{ title: `${loaderData?.title ?? "LeetCode"}` }],
+	}),
+	notFoundComponent: ProblemNotFound,
+	component: ProblemPage,
+});
+
+function ProblemNotFound() {
+	return <NotFound title="Problem not found" />;
+}
+
+type Stamp_ = { text: string; at: number };
+
+function ProblemPage() {
+	const problem = Route.useLoaderData();
+	const router = useRouter();
+
+	const [activeLang, setActiveLang] = React.useState<LanguageId>("typescript");
+	const [drafts, setDrafts] = React.useState<
+		Partial<Record<LanguageId, string>>
+	>({});
+	const [confirmSave, setConfirmSave] = React.useState(false);
+	const [busy, setBusy] = React.useState(false);
+	const [actionError, setActionError] = React.useState<string | null>(null);
+	const [stamp, setStamp] = React.useState<Stamp_ | null>(null);
+	const [split, setSplit] = React.useState(0.47);
+	const [dragging, setDragging] = React.useState(false);
+	const splitRef = React.useRef<HTMLDivElement>(null);
+
+	const startSplitDrag = (e: React.PointerEvent) => {
+		e.preventDefault();
+		const container = splitRef.current;
+		if (!container) return;
+		const rect = container.getBoundingClientRect();
+		const onMove = (ev: PointerEvent) => {
+			const next = (ev.clientX - rect.left) / rect.width;
+			setSplit(Math.min(0.7, Math.max(0.3, next)));
+		};
+		const onUp = () => {
+			window.removeEventListener("pointermove", onMove);
+			window.removeEventListener("pointerup", onUp);
+			document.body.style.cursor = "";
+			document.body.style.userSelect = "";
+			setDragging(false);
+		};
+		document.body.style.cursor = "col-resize";
+		document.body.style.userSelect = "none";
+		window.addEventListener("pointermove", onMove);
+		window.addEventListener("pointerup", onUp);
+		setDragging(true);
+	};
+
+	const solutionOf = (lang: LanguageId) =>
+		problem.solutions.find((s) => s.language === lang);
+
+	const active = solutionOf(activeLang);
+	const savedCode = active?.code ?? "";
+	const editorValue = drafts[activeLang] ?? savedCode;
+	const isDirty = drafts[activeLang] !== undefined && editorValue !== savedCode;
+	const langLabel =
+		LANGUAGES.find((l) => l.id === activeLang)?.label ?? activeLang;
+
+	const isLangDirty = (lang: LanguageId) => {
+		const draft = drafts[lang];
+		return draft !== undefined && draft !== (solutionOf(lang)?.code ?? "");
+	};
+
+	const clearDraft = (lang: LanguageId) => {
+		setDrafts((prev) => {
+			const next = { ...prev };
+			delete next[lang];
+			return next;
+		});
+	};
+
+	const saveConfirmRef = React.useRef<HTMLButtonElement>(null);
+
+	React.useEffect(() => {
+		const onKeyDown = (e: KeyboardEvent) => {
+			if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+				e.preventDefault();
+				if (isDirty && !busy && active) setConfirmSave(true);
+			}
+		};
+		window.addEventListener("keydown", onKeyDown);
+		return () => window.removeEventListener("keydown", onKeyDown);
+	}, [isDirty, busy, active]);
+
+	React.useEffect(() => {
+		if (confirmSave) {
+			const t = window.setTimeout(() => saveConfirmRef.current?.focus(), 50);
+			return () => window.clearTimeout(t);
+		}
+	}, [confirmSave]);
+
+	React.useEffect(() => {
+		if (!stamp) return;
+		const t = window.setTimeout(() => setStamp(null), 2600);
+		return () => window.clearTimeout(t);
+	}, [stamp]);
+
+	React.useEffect(() => {
+		if (isDirty) setStamp(null);
+	}, [isDirty]);
+
+	const handleChange = (code: string) => {
+		setDrafts((prev) => {
+			if (code === savedCode) {
+				const next = { ...prev };
+				delete next[activeLang];
+				return next;
+			}
+			return { ...prev, [activeLang]: code };
+		});
+	};
+
+	const handleSave = async () => {
+		if (!active) return;
+		setBusy(true);
+		setActionError(null);
+		try {
+			await saveSolution({
+				data: {
+					problemId: problem.id,
+					language: activeLang,
+					code: editorValue,
+				},
+			});
+			await router.invalidate();
+			clearDraft(activeLang);
+			setStamp({ text: "Saved", at: Date.now() });
+			setConfirmSave(false);
+		} catch (e) {
+			setActionError(
+				e instanceof Error ? e.message : "Save failed, please try again",
+			);
+		} finally {
+			setBusy(false);
+		}
+	};
+
+	const closeConfirm = () => {
+		setConfirmSave(false);
+		setActionError(null);
+	};
+
+	return (
+		<div className="flex min-h-dvh flex-col lg:h-dvh">
+			<AppHeader
+				right={
+					<Link to="/dashboard">
+						<Button variant="outline" size="sm">
+							Dashboard
+							<ArrowUpRight />
+						</Button>
+					</Link>
+				}
+			>
+				<span className="h-4 w-px shrink-0 bg-line-strong" />
+				<span className="shrink-0 font-mono text-xs text-fg-faint">
+					#{String(problem.id).padStart(3, "0")}
+				</span>
+				<span className="truncate text-sm font-medium text-fg">
+					{problem.title}
+				</span>
+				<DifficultyBadge
+					difficulty={problem.difficulty}
+					className="hidden shrink-0 sm:inline-flex"
+				/>
+			</AppHeader>
+
+			<div
+				ref={splitRef}
+				className="flex flex-1 flex-col lg:grid lg:min-h-0"
+				style={{
+					gridTemplateColumns: `minmax(0, ${split}fr) 5px minmax(0, ${1 - split}fr)`,
+				}}
+			>
+				{/* Problem statement */}
+				<article className="scroll-quiet bg-bg-panel px-6 py-7 sm:px-9 lg:min-h-0 lg:overflow-y-auto">
+					<h1 className="font-display text-[26px] font-bold tracking-tight text-fg">
+						{problem.title}
+					</h1>
+					<div className="mt-3">
+						<DifficultyBadge difficulty={problem.difficulty} />
+					</div>
+
+					<Markdown className="mt-5">{problem.description}</Markdown>
+
+					<div className="mt-8 space-y-4">
+						{problem.examples.map((example, i) => (
+							<section
+								key={example.id}
+								className="overflow-hidden rounded-lg border border-line bg-bg-raised"
+							>
+								<header className="border-b border-line bg-fg/3 px-4 py-1.5 font-mono text-[11px] font-medium text-fg-soft">
+									Example {i + 1}
+								</header>
+								<div className="space-y-3 p-4">
+									<div>
+										<p className="text-xs font-medium text-fg-faint">Input</p>
+										<pre className="mt-1.5 rounded-md bg-bg-well px-3 py-2 font-mono text-[13px] leading-6 whitespace-pre-wrap text-fg">
+											{example.input}
+										</pre>
+									</div>
+									<div>
+										<p className="text-xs font-medium text-fg-faint">Output</p>
+										<pre className="mt-1.5 rounded-md bg-bg-well px-3 py-2 font-mono text-[13px] leading-6 whitespace-pre-wrap text-fg">
+											{example.output}
+										</pre>
+									</div>
+								</div>
+							</section>
+						))}
+					</div>
+
+					<p className="mt-8 font-mono text-[11px] text-fg-faint">
+						Updated {new Date(problem.updatedAt).toLocaleString("en-US")}
+					</p>
+				</article>
+
+				{/* Save action bar (mobile) */}
+				<div className="flex items-center gap-3 border-y border-line bg-bg-panel px-4 py-2 lg:hidden">
+					<span
+						className={cn(
+							"size-2 rounded-full",
+							isDirty ? "animate-dirty-pulse bg-ctp-peach" : "bg-ctp-green",
+						)}
+					/>
+					<span className="font-mono text-xs text-fg-soft">
+						{isDirty ? "Unsaved" : "In sync"}
+					</span>
+					<div className="flex-1" />
+					<Button
+						size="sm"
+						disabled={!isDirty || busy}
+						onClick={() => setConfirmSave(true)}
+					>
+						<CloudCheck />
+						Save
+					</Button>
+				</div>
+
+				{/* Split handle (desktop) */}
+				<div
+					onPointerDown={startSplitDrag}
+					className={cn(
+						"group relative hidden w-1.25 cursor-col-resize lg:block",
+						dragging ? "bg-ctp-mauve/20" : "hover:bg-ctp-mauve/10",
+					)}
+				>
+					<span
+						className={cn(
+							"absolute inset-y-0 left-1/2 w-px -translate-x-1/2 transition-colors",
+							dragging ? "bg-ctp-mauve" : "bg-line group-hover:bg-ctp-mauve",
+						)}
+					/>
+				</div>
+
+				{/* Solution editor */}
+				<section className="flex h-[70dvh] flex-col bg-bg-raised lg:h-auto lg:min-h-0">
+					<div className="flex h-11 shrink-0 items-stretch justify-between border-b border-line bg-bg-panel pr-2.5 pl-1">
+						<div className="flex items-stretch" role="tablist">
+							{LANGUAGES.map((lang) => {
+								const selected = lang.id === activeLang;
+								return (
+									<button
+										key={lang.id}
+										type="button"
+										role="tab"
+										aria-selected={selected}
+										onClick={() => {
+											setActiveLang(lang.id);
+											setStamp(null);
+										}}
+										className={cn(
+											"relative cursor-pointer px-4 font-mono text-xs transition-colors outline-none",
+											"focus-visible:-outline-offset-2 focus-visible:outline-2 focus-visible:outline-ctp-mauve",
+											selected ? "text-fg" : "text-fg-faint hover:text-fg-soft",
+										)}
+									>
+										{lang.label}
+										{isLangDirty(lang.id) && (
+											<span className="ml-1.5 align-middle text-[8px] text-ctp-peach">
+												●
+											</span>
+										)}
+										{selected && (
+											<span className="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-ctp-mauve" />
+										)}
+									</button>
+								);
+							})}
+						</div>
+						<div className="hidden items-center gap-2.5 lg:flex">
+							<span
+								title={isDirty ? "Unsaved edits" : "In sync with database"}
+								className={cn(
+									"size-2 rounded-full",
+									isDirty ? "animate-dirty-pulse bg-ctp-peach" : "bg-ctp-green",
+								)}
+							/>
+							<Button
+								size="sm"
+								disabled={!isDirty || busy}
+								onClick={() => setConfirmSave(true)}
+							>
+								<CloudCheck />
+								Save
+							</Button>
+						</div>
+					</div>
+
+					<div
+						className={cn(
+							"relative min-h-0 flex-1",
+							dragging && "pointer-events-none",
+						)}
+					>
+						<CodeEditor
+							problemId={problem.id}
+							language={activeLang}
+							value={editorValue}
+							onChange={handleChange}
+						/>
+						{stamp && (
+							<div
+								key={stamp.at}
+								className="animate-stamp-in pointer-events-none absolute top-3 right-4 z-10 rounded-full border border-ctp-green/40 bg-bg-raised/95 px-3 py-1 font-mono text-[11px] text-ctp-green shadow-[0_2px_10px_rgba(17,17,27,0.12)]"
+							>
+								{stamp.text}
+							</div>
+						)}
+					</div>
+				</section>
+			</div>
+
+			{/* Save confirmation */}
+			<AlertDialog
+				open={confirmSave}
+				onOpenChange={(open) => {
+					if (!open) closeConfirm();
+				}}
+			>
+				<AlertDialogContent>
+					<AlertDialogTitle>Save changes?</AlertDialogTitle>
+					<AlertDialogDescription>
+						The {langLabel} solution will be overwritten.
+					</AlertDialogDescription>
+					{actionError && (
+						<p className="mt-3 text-sm text-ctp-red">{actionError}</p>
+					)}
+					<AlertDialogFooter>
+						<Button variant="ghost" onClick={closeConfirm} disabled={busy}>
+							Cancel
+						</Button>
+						<Button ref={saveConfirmRef} onClick={handleSave} disabled={busy}>
+							{busy ? "Saving…" : "Save"}
+						</Button>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+		</div>
+	);
+}
