@@ -130,7 +130,7 @@ export default function MonacoCodeEditor({
 			}}
 			options={{
 				fontFamily:
-					"'Yukino', 'Maple Mono', Menlo, 'Cascadia Code', ui-monospace, monospace",
+					"'Yukino', 'Maple Mono', Menlo, 'Cascadia Code', 'Sarasa Gothic SC', 'PingFang SC', 'Microsoft YaHei', monospace",
 				fontSize: 13,
 				lineHeight: 21,
 				fontLigatures: false,

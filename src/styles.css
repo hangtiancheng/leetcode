@@ -110,14 +110,14 @@
 
 @theme inline {
 	--font-sans:
-		"Yukino", "Maple Mono", Menlo, "Cascadia Code", "PingFang SC",
-		"Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+		"Yukino", "Maple Mono", Menlo, "Cascadia Code", "Sarasa Gothic SC",
+		"PingFang SC", "Microsoft YaHei", sans-serif;
 	--font-display:
-		"Yukino", "Maple Mono", Menlo, "Cascadia Code", "PingFang SC",
-		"Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+		"Yukino", "Maple Mono", Menlo, "Cascadia Code", "Sarasa Gothic SC",
+		"PingFang SC", "Microsoft YaHei", sans-serif;
 	--font-mono:
-		"Yukino", "Maple Mono", Menlo, "Cascadia Code", "PingFang SC",
-		"Microsoft YaHei", ui-monospace, monospace;
+		"Yukino", "Maple Mono", Menlo, "Cascadia Code", "Sarasa Gothic SC",
+		"PingFang SC", "Microsoft YaHei", monospace;
 
 	--color-bg-app: var(--bg-app);
 	--color-bg-panel: var(--bg-panel);
