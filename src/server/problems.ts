@@ -183,8 +183,6 @@ export const updateProblem = createServerFn({ method: "POST" })
 		const existing = await problems().findOne({ _id: data.id });
 		if (!existing) throw new Error("Problem not found");
 
-		// Standalone MongoDB has no multi-document transactions; replacing the
-		// examples then updating the problem keeps the window as small as possible.
 		const exampleIds = await reserveIds("examples", data.examples.length);
 		await examples().deleteMany({ problemId: data.id });
 		await examples().insertMany(

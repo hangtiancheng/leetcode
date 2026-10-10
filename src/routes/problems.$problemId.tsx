@@ -210,7 +210,6 @@ function ProblemPage() {
 					gridTemplateColumns: `minmax(0, ${split}fr) 5px minmax(0, ${1 - split}fr)`,
 				}}
 			>
-				{/* Problem statement */}
 				<article className="scroll-quiet bg-bg-panel px-6 py-7 sm:px-9 lg:min-h-0 lg:overflow-y-auto">
 					<h1 className="font-display text-[26px] font-bold tracking-tight text-fg">
 						{problem.title}
@@ -253,7 +252,6 @@ function ProblemPage() {
 					</p>
 				</article>
 
-				{/* Save action bar (mobile) */}
 				<div className="flex items-center gap-3 border-y border-line bg-bg-panel px-4 py-2 lg:hidden">
 					<span
 						className={cn(
@@ -275,7 +273,6 @@ function ProblemPage() {
 					</Button>
 				</div>
 
-				{/* Split handle (desktop) */}
 				<div
 					onPointerDown={startSplitDrag}
 					className={cn(
@@ -291,7 +288,6 @@ function ProblemPage() {
 					/>
 				</div>
 
-				{/* Solution editor */}
 				<section className="flex h-[70dvh] flex-col bg-bg-raised lg:h-auto lg:min-h-0">
 					<div className="flex h-11 shrink-0 items-stretch justify-between border-b border-line bg-bg-panel pr-2.5 pl-1">
 						<div className="flex items-stretch" role="tablist">
@@ -369,7 +365,6 @@ function ProblemPage() {
 				</section>
 			</div>
 
-			{/* Save confirmation */}
 			<AlertDialog
 				open={confirmSave}
 				onOpenChange={(open) => {

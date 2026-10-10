@@ -37,8 +37,6 @@ class LeetCodeDb extends Dexie {
 
 let instance: LeetCodeDb | undefined;
 
-// Constructed lazily so importing this module stays harmless where there is no
-// IndexedDB, such as the Node process that prerenders the SPA shell.
 function getDb() {
 	instance ??= new LeetCodeDb();
 	return instance;
@@ -101,10 +99,6 @@ async function seed(snapshot: SnapshotJson) {
 
 let ready: Promise<void> | undefined;
 
-/**
- * The published snapshot is the source of truth: a new version replaces
- * everything stored locally, including edits made in this browser.
- */
 function ensureReady() {
 	ready ??= (async () => {
 		const snapshot = await fetchSnapshot();

@@ -32,8 +32,6 @@ jobs:
         uses: actions/configure-pages@v4
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      # Project pages are served from /<repo>/, so that prefix has to be baked
-      # into the asset URLs and the router basepath at build time.
       - name: Build static site from the committed snapshot
         run: pnpm build:static
         env:

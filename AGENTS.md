@@ -1,4 +1,3 @@
-<!-- intent-skills:start -->
 
 # Yukino&TanStack Intent - before editing files, run the matching guidance command.
 
@@ -224,4 +223,3 @@ yukinoIntent:
 - id: "dotenv#dotenvx"
 run: "npx @tanstack/intent@latest load dotenv#dotenvx"
 for: "Use dotenvx to run commands with environment variables, manage multiple .env files, expand variables, and encrypt env files for safe commits and CI/CD."
-<!-- intent-skills:end -->

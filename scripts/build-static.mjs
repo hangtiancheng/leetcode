@@ -15,11 +15,8 @@ if (!existsSync(resolve(dir, "snapshot.json"))) {
 	process.exit(1);
 }
 
-// GitHub Pages cannot rewrite unknown paths to the shell, so it serves 404.html
-// instead. Making that the shell is what lets /problems/3 survive a refresh.
 copyFileSync(shell, resolve(dir, "404.html"));
 
-// Without this GitHub Pages runs Jekyll, which drops files starting with "_".
 writeFileSync(resolve(dir, ".nojekyll"), "");
 
 console.log(`static site ready: ${dir}`);

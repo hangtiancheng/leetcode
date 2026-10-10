@@ -1,17 +1,14 @@
-# ---------- Build stage ----------
 FROM node:24-bookworm-slim AS builder
 WORKDIR /app
 
 RUN npm install -g pnpm@11.22.0
 
-# Copy the dependency manifests first so the dependency layer stays cached
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 RUN pnpm install --frozen-lockfile
 
 COPY . .
 RUN pnpm build
 
-# ---------- Runtime stage ----------
 FROM node:24-bookworm-slim AS runner
 WORKDIR /app
 

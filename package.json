@@ -7,22 +7,22 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "dotenv -e .env.local -- vite dev --port 3000",
-    "generate-routes": "tsr generate",
     "build": "vite build",
     "build:static": "STATIC_BUILD=1 vite build && node scripts/build-static.mjs",
-    "preview": "vite preview",
-    "preview:static": "node scripts/preview-static.mjs",
-    "format": "biome format",
-    "lint": "biome lint",
     "check": "biome check",
-    "start": "node .output/server/index.mjs",
     "db:export": "dotenv -e .env.local -- node scripts/export-snapshot.mjs",
     "db:import": "dotenv -e .env.local -- node scripts/import-snapshot.mjs",
-    "git:config": "git config user.name hangtiancheng && git config user.email '161043261@qq.com'",
+    "dev": "dotenv -e .env.local -- vite dev --port 3000",
+    "format": "biome format --write",
+    "generate-routes": "tsr generate",
     "git:commit": "git add -A && git commit -m \"feat: Introduce new features\"",
+    "git:config": "git config user.name hangtiancheng && git config user.email '161043261@qq.com'",
     "git:push": "pnpm git:commit && git push origin main",
-    "prepare": "husky"
+    "lint": "biome lint --unsafe --write",
+    "prepare": "husky",
+    "preview": "vite preview",
+    "preview:static": "node scripts/preview-static.mjs",
+    "start": "node .output/server/index.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",

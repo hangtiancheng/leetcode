@@ -48,8 +48,6 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 		],
 	}),
 	shellComponent: RootDocument,
-	// Wrapped so the component keeps its optional `title` prop while staying
-	// assignable to the router's NotFoundRouteProps signature.
 	notFoundComponent: () => <NotFound />,
 });
 

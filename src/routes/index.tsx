@@ -41,7 +41,6 @@ function ProblemIndex() {
 			/>
 
 			<main className="mx-auto w-[min(920px,calc(100%-2rem))] pt-8 pb-16">
-				{/* Statusline */}
 				<div className="animate-rise-in flex flex-wrap items-center gap-x-3 gap-y-2 rounded-lg border border-line bg-bg-panel px-3.5 py-2.5 font-mono text-xs text-fg-soft">
 					<span className="rounded-sm bg-ctp-mauve px-1.5 py-0.5 font-semibold text-[10px] uppercase tracking-[0.14em] text-primary-foreground">
 						leetcode

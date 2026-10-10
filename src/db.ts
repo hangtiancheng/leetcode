@@ -1,11 +1,5 @@
 import { type Collection, type Db, MongoClient } from "mongodb";
 
-/**
- * MongoDB is the source of truth for the SSR app. Documents mirror the old
- * SQLite tables: numeric ids stay the primary identifier (routes, the JSON
- * snapshot and the IndexedDB client all key off them), so the numeric id is
- * stored as Mongo's `_id` and mapped back to `id` at the data seam.
- */
 export interface ProblemDoc {
 	_id: number;
 	title: string;
@@ -62,10 +56,6 @@ export const solutions = (): Collection<SolutionDoc> =>
 const counters = (): Collection<CounterDoc> =>
 	db().collection<CounterDoc>("counters");
 
-/**
- * Atomically reserve `count` sequential numeric ids for a collection, keeping
- * the autoincrement behaviour the SQLite schema used to provide.
- */
 export async function reserveIds(name: string, count = 1): Promise<number[]> {
 	const updated = await counters().findOneAndUpdate(
 		{ _id: name },
@@ -78,7 +68,6 @@ export async function reserveIds(name: string, count = 1): Promise<number[]> {
 
 let indexesReady: Promise<void> | undefined;
 
-/** Mirrors the SQLite schema's secondary/unique indexes. Runs once per process. */
 export function ensureIndexes(): Promise<void> {
 	indexesReady ??= Promise.all([
 		examples().createIndex({ problemId: 1, order: 1 }),

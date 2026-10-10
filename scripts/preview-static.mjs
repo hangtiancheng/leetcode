@@ -1,8 +1,5 @@
 // @ts-check
 
-// Serves the build:static output the way GitHub Pages does: under a base path,
-// with unknown paths falling back to 404.html. `vite preview` does neither.
-
 import { createReadStream, existsSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { extname, join, normalize, resolve } from "node:path";
@@ -11,7 +8,6 @@ const dir = resolve(".output/public");
 const base = (process.env.STATIC_BASE ?? "/leetcode/").replace(/\/$/, "");
 const port = Number(process.env.PORT ?? 4321);
 
-/** @type {Record<string, string>} */
 const CONTENT_TYPES = {
 	".css": "text/css",
 	".html": "text/html; charset=utf-8",

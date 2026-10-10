@@ -14,13 +14,10 @@ const base = staticBuild ? (process.env.STATIC_BASE ?? "/") : "/";
 const config = defineConfig({
 	base,
 	ssr: {
-		// These ship .css imports Node can't load when externalized.
 		noExternal: ["@uiw/react-md-editor", "@uiw/react-markdown-preview"],
 	},
 	resolve: {
 		tsconfigPaths: true,
-		// Swapping the seam keeps MongoDB and the server functions out of the
-		// static bundle: the UI talks to IndexedDB instead.
 		alias: staticBuild
 			? { "#/data/problems.ts": resolve("src/data/problems.static.ts") }
 			: {},

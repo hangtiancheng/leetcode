@@ -4,38 +4,28 @@
 
 @plugin "@tailwindcss/typography";
 
-/*
- Catppuccin: latte (light) is applied at :root, mocha (dark) under the
- `dark` variant. The variant is class-based (.dark on <html>) so the
- Light / Dark / System toggle can override the OS preference.
-*/
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
 	color-scheme: light;
 
-	/* Elevation ladder: app < panel < raised */
 	--bg-app: var(--catppuccin-color-mantle);
 	--bg-panel: var(--catppuccin-color-base);
 	--bg-raised: #ffffff;
 	--bg-well: rgba(76, 79, 105, 0.05);
 
-	/* Text */
 	--fg: var(--catppuccin-color-text);
 	--fg-soft: var(--catppuccin-color-subtext0);
 	--fg-faint: var(--catppuccin-color-overlay1);
 
-	/* Hairlines */
 	--line: var(--catppuccin-color-surface0);
 	--line-strong: var(--catppuccin-color-surface1);
 
-	/* Brand accent: mauve */
 	--primary: var(--catppuccin-color-mauve);
 	--primary-foreground: #ffffff;
 	--primary-hover: color-mix(in oklab, var(--primary) 84%, var(--fg));
 	--ring: color-mix(in oklab, var(--catppuccin-color-mauve) 45%, transparent);
 
-	/* Semantic aliases consumed by the component layer */
 	--background: var(--bg-app);
 	--foreground: var(--fg);
 	--card: var(--bg-panel);
@@ -55,16 +45,9 @@
 	--radius: 0.5rem;
 }
 
-/*
- `@variant dark { :root { … } }` would compile to the descendant selector
- `:scope:where(.dark, .dark *) :root`, which never matches — so the dark
- overrides (and the mocha palette re-declaration the catppuccin package
- needs) live in a plain `:root.dark` rule instead.
-*/
 :root.dark {
 	color-scheme: dark;
 
-	/* Mocha palette (the package's own dark block does not apply here) */
 	--catppuccin-color-rosewater: #f5e0dc;
 	--catppuccin-color-flamingo: #f2cdcd;
 	--catppuccin-color-pink: #f5c2e7;
@@ -198,7 +181,6 @@
 	}
 }
 
-/* Scrollbar pseudo-elements have no atomic equivalent. */
 @utility scroll-quiet {
 	scrollbar-width: thin;
 	scrollbar-color: var(--line-strong) transparent;
@@ -217,11 +199,6 @@
 	}
 }
 
-/*
- Markdown prose theme: maps @tailwindcss/typography variables onto the
- Catppuccin tokens (they already flip with `.dark`, so one block covers
- both modes). Unlayered on purpose so it wins over the plugin defaults.
-*/
 .prose-leetcode {
 	font-size: 15px;
 	--tw-prose-body: color-mix(in oklab, var(--fg) 88%, transparent);
@@ -247,7 +224,6 @@
 	--tw-prose-td-borders: var(--line);
 }
 
-/* Markdown headings sit beneath the page's own 26px title. */
 .prose-leetcode :where(h1) {
 	font-size: 1.35em;
 }
@@ -260,7 +236,6 @@
 	font-size: 1.05em;
 }
 
-/* Inline code as a quiet chip, no backtick pseudo-elements. */
 .prose-leetcode :where(code):not(:where(pre code))::before,
 .prose-leetcode :where(code):not(:where(pre code))::after {
 	content: none;
@@ -274,17 +249,11 @@
 	font-family: var(--font-mono);
 }
 
-/* Code blocks match the example wells on the problem page. */
 .prose-leetcode :where(pre) {
 	border: 1px solid var(--line);
 	font-family: var(--font-mono);
 }
 
-/*
- Markdown editor (@uiw/react-md-editor) remapped onto Catppuccin tokens.
- The extra [data-color-mode] attribute outranks the library's own palette
- blocks regardless of stylesheet order.
-*/
 .md-editor-shell[data-color-mode] .w-md-editor,
 .md-editor-shell[data-color-mode] .wmde-markdown,
 .md-editor-shell[data-color-mode] .wmde-markdown-var {
@@ -316,7 +285,6 @@
 	border-radius: calc(var(--radius-lg) - 1px) calc(var(--radius-lg) - 1px) 0 0;
 }
 
-/* Markdown source at the app's mono 13px scale (both mirror layers). */
 .md-editor-shell[data-color-mode] .w-md-editor-text,
 .md-editor-shell[data-color-mode] .w-md-editor-text-pre > code {
 	font-size: 13px;
